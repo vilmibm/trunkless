@@ -1,3 +1,7 @@
+/*
+Given a project gutenberg plaintext book filename, this program prints just its content (ie with header and footer stripped)
+*/
+
 package main
 
 import (
@@ -6,10 +10,6 @@ import (
 	"os"
 	"strings"
 )
-
-/*
-Given a project gutenberg plaintext book filename, open it and print just the content.
-*/
 
 func main() {
 	if len(os.Args) < 2 {
