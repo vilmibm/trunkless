@@ -63,3 +63,9 @@ func main() {
 		}
 	}
 }
+
+func clean(s string) string {
+	s = strings.ReplaceAll(s, "’", "'")
+
+	return s
+}

@@ -1,5 +1,5 @@
 /*
-Given a project gutenberg plaintext book filename, this program prints just its content (ie with header and footer stripped)
+Given a project gutenberg plaintext book on STDIN, this program prints just its content (ie with header and footer stripped)
 */
 
 package main
@@ -12,18 +12,7 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Fprintln(os.Stderr, "need a filename argument")
-		os.Exit(1)
-	}
-	filename := os.Args[1]
-	f, err := os.Open(filename)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "could not open '%s' for reading\n", filename)
-		os.Exit(2)
-	}
-
-	s := bufio.NewScanner(f)
+	s := bufio.NewScanner(os.Stdin)
 	inHeader := true
 	inFooter := false
 	skippedAll := true
