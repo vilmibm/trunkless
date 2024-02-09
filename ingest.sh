@@ -3,6 +3,6 @@
 p="/home/vilmibm/pg_plaintext/files/"
 
 while read book; do
-  title=`grep "*** START OF THE PROJECT GUTENBERG" $p$book | sed 's/^\*\*\* START OF THE PROJECT GUTENBERG EBOOK //' | sed 's/\*\*\*//'`
-  echo $book,$title
+  title=`cat $p$book | guttitle.sh`
+  cat $p$book | gutcontent | phraser | gutingest "$book $title"
 done

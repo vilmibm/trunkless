@@ -52,7 +52,7 @@ func main() {
 					}
 				}
 				if !printed {
-					fmt.Fprintf(os.Stderr, "SKIP: %s\n", string(phraseBuff))
+					//fmt.Fprintf(os.Stderr, "SKIP: %s\n", string(phraseBuff))
 				}
 				printed = false
 				phraseBuff = []byte{}
@@ -70,6 +70,53 @@ func main() {
 	}
 }
 
+func isAlpha(r rune) bool {
+	alphaChars := map[rune]bool{
+		'a': true,
+		'b': true,
+		'c': true,
+		'd': true,
+		'e': true,
+		'f': true,
+		'g': true,
+		'h': true,
+		'i': true,
+		'j': true,
+		'k': true,
+		'l': true,
+		'm': true,
+		'n': true,
+		'o': true,
+		'p': true,
+		'q': true,
+		'r': true,
+		's': true,
+		't': true,
+		'u': true,
+		'v': true,
+		'w': true,
+		'x': true,
+		'y': true,
+		'z': true,
+	}
+	lookup := strings.ToLower(string(r))
+	return alphaChars[rune(lookup[0])]
+}
+
+func alphaPercent(s string) float64 {
+	total := 0.0
+	alpha := 0.0
+
+	for _, r := range s {
+		total++
+		if isAlpha(r) {
+			alpha++
+		}
+	}
+
+	return 100 * (alpha / total)
+}
+
 func clean(bs []byte) string {
 	s := string(bs)
 	s = strings.ReplaceAll(s, "’", "'")
@@ -77,7 +124,9 @@ func clean(bs []byte) string {
 	s = strings.TrimSpace(s)
 	s = strings.ToLower(s)
 
-	// TODO QA check for alphabetism
+	if alphaPercent(s) < 50.0 {
+		return ""
+	}
 
 	return s
 }

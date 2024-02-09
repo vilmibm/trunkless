@@ -2,9 +2,14 @@
 <html>
   <head>
     <title>Trunkless</title>
+<style>
+  #blueprint {
+    display: none;
+  }
+</style>
   </head>
   <body>
-    <div id="blueprint" style="display:none">
+    <div id="blueprint">
       <div class="linecontainer">
         <span class="linecontrols">
           <button id="pin">pin</button>
@@ -28,7 +33,17 @@
       todo, dna display
     </p>
     <div id="lines">
+      <!-- TODO try and hardcode putting 10 of these here and then finding an onload hx-trigger or something to get them all to call /line -->
+      <div class="linecontainer">
+        <span class="linecontrols">
+          <button id="pin">pin</button>
+          <button id="edit">edit</button>
+          <button id="move">move</button>
+        </span>
+        <span class="linetext"></span>
+      </div>
     </div>
+    <script src="/htmx.js"></script>
     <script src="/main.js"></script>
   </body>
 </html>
