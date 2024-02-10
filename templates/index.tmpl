@@ -40,7 +40,23 @@
           <button id="edit">edit</button>
           <button id="move">move</button>
         </span>
-        <span class="linetext"></span>
+        <span hx-swap="outerHTML" hx-get="/line" hx-trigger="load" class="linetext"></span>
+      </div>
+      <div class="linecontainer">
+        <span class="linecontrols">
+          <button id="pin">pin</button>
+          <button id="edit">edit</button>
+          <button id="move">move</button>
+        </span>
+        <span hx-swap="outerHTML" hx-get="/line" hx-trigger="load" class="linetext"></span>
+      </div>
+      <div class="linecontainer">
+        <span class="linecontrols">
+          <button id="pin">pin</button>
+          <button id="edit">edit</button>
+          <button id="move">move</button>
+        </span>
+        <span hx-swap="outerHTML" hx-get="/line" hx-trigger="load" class="linetext"></span>
       </div>
     </div>
     <script src="/htmx.js"></script>
