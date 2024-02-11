@@ -12,11 +12,12 @@
     <div id="blueprint">
       <div class="linecontainer">
         <span class="linecontrols">
-          <button id="pin">pin</button>
-          <button id="edit">edit</button>
-          <button id="move">move</button>
+          <button>pin</button>
+          <button>edit</button>
+          <button>move</button>
+          <button _="on click remove the closest <div/>">remove</button>
         </span>
-        <span class="linetext"></span>
+        <span hx-trigger="load" hx-swap="outerHTML" hx-get="/line" class="linetext"></span>
       </div>
     </div>
     <h1>Trunkless</h1>
@@ -32,34 +33,12 @@
     <p id="dna">
       todo, dna display
     </p>
-    <div id="lines">
-      <!-- TODO try and hardcode putting 10 of these here and then finding an onload hx-trigger or something to get them all to call /line -->
-      <div class="linecontainer">
-        <span class="linecontrols">
-          <button id="pin">pin</button>
-          <button id="edit">edit</button>
-          <button id="move">move</button>
-        </span>
-        <span hx-swap="outerHTML" hx-get="/line" hx-trigger="load" class="linetext"></span>
-      </div>
-      <div class="linecontainer">
-        <span class="linecontrols">
-          <button id="pin">pin</button>
-          <button id="edit">edit</button>
-          <button id="move">move</button>
-        </span>
-        <span hx-swap="outerHTML" hx-get="/line" hx-trigger="load" class="linetext"></span>
-      </div>
-      <div class="linecontainer">
-        <span class="linecontrols">
-          <button id="pin">pin</button>
-          <button id="edit">edit</button>
-          <button id="move">move</button>
-        </span>
-        <span hx-swap="outerHTML" hx-get="/line" hx-trigger="load" class="linetext"></span>
-      </div>
+    <div id="lines"></div>
+    <div>
+      <button>add</button>
     </div>
     <script src="/htmx.js"></script>
+    <script src="/hyperscript.js"></script>
     <script src="/main.js"></script>
   </body>
 </html>

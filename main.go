@@ -49,6 +49,7 @@ func main() {
 	r.StaticFile("/favicon.ico", "./assets/favicon.ico")
 	r.StaticFile("/main.js", "./assets/main.js")
 	r.StaticFile("/htmx.js", "./assets/htmx@1.9.10.min.js")
+	r.StaticFile("/hyperscript.js", "./assets/hyperscript.org@0.9.12")
 
 	randMax := big.NewInt(maxID)
 
