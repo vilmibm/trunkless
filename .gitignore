@@ -1,3 +1,6 @@
+trunkless
+phrase.db
+cmd/ingest/gutingest
 cmd/phraser/phraser
 cmd/gutcontent/gutcontent
 *.swp
