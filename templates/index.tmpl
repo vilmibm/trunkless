@@ -9,17 +9,17 @@
 </style>
   </head>
   <body>
-    <div id="blueprint">
-      <div class="linecontainer">
+    <template id="linetmpl">
+      <div class="linecontainer unpinned">
         <span class="linecontrols">
-          <button>pin</button>
+          <button _="on click toggle .unpinned on the closest <div/>">pin</button>
           <button>edit</button>
           <button>move</button>
           <button _="on click remove the closest <div/>">remove</button>
         </span>
         <span hx-trigger="load" hx-swap="outerHTML" hx-get="/line" class="linetext"></span>
       </div>
-    </div>
+    </template>
     <h1>Trunkless</h1>
     <div id="pagecontrols">
       <a href="/about">about</a>
