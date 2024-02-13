@@ -31,13 +31,25 @@ class LineAdder extends HTMLButtonElement {
 
 customElements.define("line-adder", LineAdder, { extends: "button" });
 
+class PoemRegenner extends HTMLButtonElement {
+  constructor() {
+    super();
+    this.addEventListener("click", () => {
+      document.querySelectorAll(".unpinned").forEach((e) => {
+        e.parentElement.regen();
+      });
+    });
+  }
+}
+
+customElements.define("poem-regenner", PoemRegenner, {extends: "button"});
+
 class PoemLine extends HTMLDivElement {
   constructor() {
     super();
     const ltp = document.querySelector("#linetmpl");
     var l = ltp.content.cloneNode(true);
     this.appendChild(l);
-    this.addEventListener("regen", this.regen); // TODO will this be bound?
   }
 
   regen() {
@@ -53,9 +65,7 @@ class PoemLine extends HTMLDivElement {
   }
 }
 
-customElements.define("poem-line", PoemLine, { extends: "div" });
-
-const regen = new Event("regen");
+customElements.define("poem-line", PoemLine, {extends: "div"});
 
 class Lines extends HTMLDivElement {
   constructor() {
@@ -66,10 +76,10 @@ class Lines extends HTMLDivElement {
   }
 
   add() {
-    var ld = document.createElement("div", { is: "poem-line" });
+    var ld = document.createElement("div", {is: "poem-line"});
     this.append(ld);
     ld.regen();
   }
 }
 
-customElements.define("lines-div", Lines, { extends: "div" });
+customElements.define("lines-div", Lines, {extends: "div"});

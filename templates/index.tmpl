@@ -10,7 +10,7 @@
   </head>
   <body>
     <template id="linetmpl">
-      <div class="linecontainer unpinned" hx-trigger="regen from:body" hx-swap="outerHTML" hx-get="/line">
+      <div class="linecontainer unpinned">
         <span class="linecontrols">
           <button is="line-pinner">pin</button>
           <button >edit</button>
@@ -28,7 +28,7 @@
       <a id="togglescheme" href="/#togglescheme">light|dark</a>
     </div>
     <p id="poemcontrols">
-      <button id="regen">regen</button>
+      <button is="poem-regenner">regen</button>
       <button id="new">new</button>
       <button id="save">save</button>
     </p>
