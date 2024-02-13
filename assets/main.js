@@ -1,12 +1,33 @@
+class LineRemover extends HTMLButtonElement {
+  constructor() {
+    super();
+    this.container = this.closest("div.linecontainer").parentElement;
+    this.addEventListener("click", (e) => {
+      this.container.remove();
+    });
+  }
+}
+
+customElements.define("line-remover", LineRemover, { extends: "button" });
+
+class LineAdder extends HTMLButtonElement {
+  constructor() {
+    super();
+    this.addEventListener("click", (e) => {
+      document.querySelector("div[is=lines-div]").add()
+    });
+  }
+}
+
+customElements.define("line-adder", LineAdder, { extends: "button" });
+
 class PoemLine extends HTMLDivElement {
   constructor() {
     super();
     const ltp = document.querySelector("#linetmpl");
     var l = ltp.content.cloneNode(true);
     this.appendChild(l);
-    this.addEventListener("regen", function() {
-      console.log("poot");
-    });
+    this.addEventListener("regen", this.regen); // TODO will this be bound?
   }
 
   regen() {
@@ -23,18 +44,22 @@ class PoemLine extends HTMLDivElement {
 }
 
 customElements.define("poem-line", PoemLine, { extends: "div" });
+
 const regen = new Event("regen");
 
-function addLine() {
-  var ld = document.createElement("div", { is: "poem-line" });
-  document.querySelector("#lines").append(ld);
-  ld.regen();
-}
+class Lines extends HTMLDivElement {
+  constructor() {
+    super();
+    for (var i = 0; i < 10; i++) {
+      this.add();
+    }
+  }
 
-function main() {
-  for (var i = 0; i < 10; i++) {
-    addLine();
+  add() {
+    var ld = document.createElement("div", { is: "poem-line" });
+    this.append(ld);
+    ld.regen();
   }
 }
 
-main();
+customElements.define("lines-div", Lines, { extends: "div" });

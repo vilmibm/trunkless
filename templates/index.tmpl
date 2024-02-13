@@ -12,16 +12,17 @@
     <template id="linetmpl">
       <div class="linecontainer unpinned" hx-trigger="regen from:body" hx-swap="outerHTML" hx-get="/line">
         <span class="linecontrols">
-          <button class="pin">pin</button>
-          <button class"edit">edit</button>
-          <button class="moveup">up</button>
-          <button class="movedown">down</button>
-          <button class="remove">remove</button>
+          <button >pin</button>
+          <button >edit</button>
+          <button >up</button>
+          <button >down</button>
+          <button is="line-remover">remove</button>
         </span>
         <span class="linetext"></span>
       </div>
     </template>
     <h1>Trunkless</h1>
+    <script src="/main.js"></script>
     <div id="pagecontrols">
       <a href="/about">about</a>
       <a id="togglescheme" href="/#togglescheme">light|dark</a>
@@ -34,11 +35,10 @@
     <p id="dna">
       todo, dna display
     </p>
-    <div id="lines"></div>
+    <div is="lines-div"></div>
     <div>
-      <button>add</button>
+      <button is="line-adder">add</button>
     </div>
-    <script src="/main.js"></script>
   </body>
 </html>
 
