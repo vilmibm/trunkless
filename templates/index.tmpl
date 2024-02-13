@@ -10,14 +10,15 @@
   </head>
   <body>
     <template id="linetmpl">
-      <div class="linecontainer unpinned">
+      <div class="linecontainer unpinned" hx-trigger="regen from:body" hx-swap="outerHTML" hx-get="/line">
         <span class="linecontrols">
-          <button _="on click toggle .unpinned on the closest <div/>">pin</button>
-          <button>edit</button>
-          <button>move</button>
-          <button _="on click remove the closest <div/>">remove</button>
+          <button class="pin">pin</button>
+          <button class"edit">edit</button>
+          <button class="moveup">up</button>
+          <button class="movedown">down</button>
+          <button class="remove">remove</button>
         </span>
-        <span hx-trigger="load" hx-swap="outerHTML" hx-get="/line" class="linetext"></span>
+        <span class="linetext"></span>
       </div>
     </template>
     <h1>Trunkless</h1>
@@ -26,7 +27,7 @@
       <a id="togglescheme" href="/#togglescheme">light|dark</a>
     </div>
     <p id="poemcontrols">
-      <button id="regen">regen</button>
+      <button _="on click send regen to div.linecontainer.unpinned">regen</button>
       <button id="new">new</button>
       <button id="save">save</button>
     </p>
@@ -37,8 +38,6 @@
     <div>
       <button _="on click call addLine()">add</button>
     </div>
-    <script src="/htmx.js"></script>
-    <script src="/hyperscript.js"></script>
     <script src="/main.js"></script>
   </body>
 </html>

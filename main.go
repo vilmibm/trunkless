@@ -97,7 +97,8 @@ func main() {
 		}
 		p.Source = s
 		p.ID = id.Int64()
-		c.HTML(http.StatusOK, "phrase.tmpl", p)
+		//c.HTML(http.StatusOK, "phrase.tmpl", p)
+		c.JSON(http.StatusOK, p)
 	})
 
 	r.Run() // 8080
