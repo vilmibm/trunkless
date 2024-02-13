@@ -1,14 +1,24 @@
 class LineRemover extends HTMLButtonElement {
   constructor() {
     super();
-    this.container = this.closest("div.linecontainer").parentElement;
     this.addEventListener("click", (e) => {
-      this.container.remove();
+      this.closest("div.linecontainer").parentElement.remove();
     });
   }
 }
 
 customElements.define("line-remover", LineRemover, { extends: "button" });
+
+class LinePinner extends HTMLButtonElement {
+  constructor() {
+    super();
+    this.addEventListener("click", (e) => {
+      this.closest("div.linecontainer").classList.toggle("unpinned");
+    });
+  }
+}
+
+customElements.define("line-pinner", LinePinner, { extends: "button" });
 
 class LineAdder extends HTMLButtonElement {
   constructor() {
