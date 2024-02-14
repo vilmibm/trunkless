@@ -82,7 +82,7 @@ class PoemLine extends HTMLDivElement {
       return resp.json();
     }).then((payload) => {
       this.querySelector(".linetext").innerText = payload.Text;
-      this.querySelector(".linetext").setAttribute("data-source", payload.Source);
+      this.querySelector(".linetext").setAttribute("data-source", payload.Source.Name);
     });
   }
 }
