@@ -18,7 +18,13 @@ class LineRemover extends Button {
 
 class LinePinner extends Button {
   click() {
-    this.closest("div.linecontainer").classList.toggle("unpinned");
+    const l = this.closest("div.linecontainer");
+    l.classList.toggle("unpinned");
+    if (l.classList.contains("unpinned")) {
+      this.innerText = "pin";
+    } else {
+      this.innerText = "upin";
+    }
   }
 }
 
