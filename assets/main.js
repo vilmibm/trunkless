@@ -1,6 +1,7 @@
 // nostalgia for a simpler, more complicated time
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
+
 const initialLines = 10;
 
 class Button extends HTMLButtonElement {
@@ -136,6 +137,11 @@ class Lines extends HTMLDivElement {
       this.add();
     }
     this.connected = true
+    addEventListener("beforeunload", (e) => {
+      if ($$("div.linecontainer:not(.unpinned)").length > 0) {
+        e.preventDefault();
+      }
+    });
   }
 
   add() {
