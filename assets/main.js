@@ -5,7 +5,7 @@ const $$ = document.querySelectorAll.bind(document);
 class LineRemover extends HTMLButtonElement {
   constructor() {
     super();
-    this.addEventListener("click", (e) => {
+    this.addEventListener("click", () => {
       this.closest("div.linecontainer").parentElement.remove();
     });
   }
@@ -16,7 +16,7 @@ customElements.define("line-remover", LineRemover, { extends: "button" });
 class LinePinner extends HTMLButtonElement {
   constructor() {
     super();
-    this.addEventListener("click", (e) => {
+    this.addEventListener("click", () => {
       this.closest("div.linecontainer").classList.toggle("unpinned");
     });
   }
@@ -24,10 +24,46 @@ class LinePinner extends HTMLButtonElement {
 
 customElements.define("line-pinner", LinePinner, { extends: "button" });
 
+class LineUpper extends HTMLButtonElement {
+  constructor() {
+    super();
+    this.addEventListener("click", () => {
+      const l = this.closest("div.linecontainer").parentElement;
+      const s = l.previousElementSibling;
+      if (s == null) {
+        return
+      }
+      s.before(l);
+    });
+    // TODO connectedCallback to disable this if first in list
+    // TODO change callback (i forget what it's called but i think i saw it) to enable if not first in list
+  }
+}
+
+customElements.define("line-upper", LineUpper, { extends: "button" });
+
+class LineDowner extends HTMLButtonElement {
+  constructor() {
+    super();
+    this.addEventListener("click", () => {
+      const l = this.closest("div.linecontainer").parentElement;
+      const s = l.nextElementSibling;
+      if (s == null) {
+        return
+      }
+      s.after(l);
+    });
+    // TODO connectedCallback to disable this if last in list
+    // TODO change callback (i forget what it's called but i think i saw it) to enable if not last in list
+  }
+}
+
+customElements.define("line-downer", LineDowner, { extends: "button" });
+
 class LineAdder extends HTMLButtonElement {
   constructor() {
     super();
-    this.addEventListener("click", (e) => {
+    this.addEventListener("click", () => {
       $("div[is=lines-div]").add()
     });
   }
