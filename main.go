@@ -45,11 +45,9 @@ func main() {
 	r.SetFuncMap(template.FuncMap{
 		"upper": strings.ToUpper,
 	})
-	r.LoadHTMLFiles("templates/index.tmpl", "templates/phrase.tmpl")
+	r.LoadHTMLFiles("templates/index.tmpl")
 	r.StaticFile("/favicon.ico", "./assets/favicon.ico")
 	r.StaticFile("/main.js", "./assets/main.js")
-	r.StaticFile("/htmx.js", "./assets/htmx@1.9.10.min.js")
-	r.StaticFile("/hyperscript.js", "./assets/hyperscript.org@0.9.12")
 
 	randMax := big.NewInt(maxID)
 
@@ -97,7 +95,6 @@ func main() {
 		}
 		p.Source = s
 		p.ID = id.Int64()
-		//c.HTML(http.StatusOK, "phrase.tmpl", p)
 		c.JSON(http.StatusOK, p)
 	})
 
