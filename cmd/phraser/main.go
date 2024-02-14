@@ -124,6 +124,9 @@ func clean(bs []byte) string {
 	s = strings.TrimSpace(s)
 	s = strings.ToLower(s)
 
+	// TODO strip _
+	// TODO strip *
+
 	if alphaPercent(s) < 50.0 {
 		return ""
 	}

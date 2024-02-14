@@ -2,87 +2,62 @@
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
-class LineRemover extends HTMLButtonElement {
+class Button extends HTMLButtonElement {
   constructor() {
     super();
-    this.addEventListener("click", () => {
-      this.closest("div.linecontainer").parentElement.remove();
-    });
+    this.addEventListener("click", this.click);
   }
 }
 
-customElements.define("line-remover", LineRemover, { extends: "button" });
-
-class LinePinner extends HTMLButtonElement {
-  constructor() {
-    super();
-    this.addEventListener("click", () => {
-      this.closest("div.linecontainer").classList.toggle("unpinned");
-    });
+class LineRemover extends Button {
+  click() {
+    this.closest("div.linecontainer").parentElement.remove();
   }
 }
 
-customElements.define("line-pinner", LinePinner, { extends: "button" });
-
-class LineUpper extends HTMLButtonElement {
-  constructor() {
-    super();
-    this.addEventListener("click", () => {
-      const l = this.closest("div.linecontainer").parentElement;
-      const s = l.previousElementSibling;
-      if (s == null) {
-        return
-      }
-      s.before(l);
-    });
-    // TODO connectedCallback to disable this if first in list
-    // TODO change callback (i forget what it's called but i think i saw it) to enable if not first in list
+class LinePinner extends Button {
+  click() {
+    this.closest("div.linecontainer").classList.toggle("unpinned");
   }
 }
 
-customElements.define("line-upper", LineUpper, { extends: "button" });
+class LineUpper extends Button {
+  click() {
+    const l = this.closest("div.linecontainer").parentElement;
+    const s = l.previousElementSibling;
+    if (s == null) {
+      return;
+    }
+    s.before(l);
+  }
+  // TODO connectedCallback to disable this if first in list
+  // TODO change callback (i forget what it's called but i think i saw it) to enable if not first in list
+}
 
-class LineDowner extends HTMLButtonElement {
-  constructor() {
-    super();
-    this.addEventListener("click", () => {
-      const l = this.closest("div.linecontainer").parentElement;
-      const s = l.nextElementSibling;
-      if (s == null) {
-        return
-      }
-      s.after(l);
-    });
-    // TODO connectedCallback to disable this if last in list
-    // TODO change callback (i forget what it's called but i think i saw it) to enable if not last in list
+class LineDowner extends Button {
+  click() {
+    const l = this.closest("div.linecontainer").parentElement;
+    const s = l.nextElementSibling;
+    if (s == null)  return;
+    s.after(l);
+  }
+  // TODO connectedCallback to disable this if last in list
+  // TODO change callback (i forget what it's called but i think i saw it) to enable if not last in list
+}
+
+class LineAdder extends Button {
+  click() {
+    $("div[is=lines-div]").add()
   }
 }
 
-customElements.define("line-downer", LineDowner, { extends: "button" });
-
-class LineAdder extends HTMLButtonElement {
-  constructor() {
-    super();
-    this.addEventListener("click", () => {
-      $("div[is=lines-div]").add()
+class PoemRegenner extends Button {
+  click() {
+    $$(".unpinned").forEach((e) => {
+      e.parentElement.regen();
     });
   }
 }
-
-customElements.define("line-adder", LineAdder, { extends: "button" });
-
-class PoemRegenner extends HTMLButtonElement {
-  constructor() {
-    super();
-    this.addEventListener("click", () => {
-      $$(".unpinned").forEach((e) => {
-        e.parentElement.regen();
-      });
-    });
-  }
-}
-
-customElements.define("poem-regenner", PoemRegenner, {extends: "button"});
 
 class PoemLine extends HTMLDivElement {
   constructor() {
@@ -112,8 +87,6 @@ class PoemLine extends HTMLDivElement {
   }
 }
 
-customElements.define("poem-line", PoemLine, {extends: "div"});
-
 class Lines extends HTMLDivElement {
   constructor() {
     super();
@@ -137,4 +110,11 @@ class Lines extends HTMLDivElement {
   }
 }
 
+customElements.define("line-remover", LineRemover, { extends: "button" });
+customElements.define("line-pinner", LinePinner, { extends: "button" });
+customElements.define("line-upper", LineUpper, { extends: "button" });
+customElements.define("line-downer", LineDowner, { extends: "button" });
+customElements.define("line-adder", LineAdder, { extends: "button" });
+customElements.define("poem-regenner", PoemRegenner, {extends: "button"});
+customElements.define("poem-line", PoemLine, {extends: "div"});
 customElements.define("lines-div", Lines, {extends: "div"});
