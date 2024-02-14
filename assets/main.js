@@ -31,6 +31,10 @@ class LinePinner extends Button {
 
 class LineUpper extends Button {
   click() {
+    // TODO debug why when I:
+    // - add a new line
+    // - move that line up
+    // the "down" button stays disabled
     const l = this.closest("div.linecontainer").parentElement;
     const s = l.previousElementSibling;
     s.before(l);
@@ -73,11 +77,15 @@ class LineDowner extends Button {
   }
 
   connectedCallback() {
+    if (this.connected) {
+      return;
+    }
     const count = $$("button[is=line-downer]").length;
     if (count != initialLines) {
       return;
     }
     this.checkDisabled();
+    this.connected = true;
   }
 }
 
@@ -99,7 +107,6 @@ class PoemLine extends HTMLDivElement {
   constructor() {
     super();
     this.ltp = $("#linetmpl");
-    this.connected = false;
   }
 
   connectedCallback() {
@@ -126,17 +133,12 @@ class PoemLine extends HTMLDivElement {
 class Lines extends HTMLDivElement {
   constructor() {
     super();
-    this.connected = false;
   }
 
   connectedCallback() {
-    if (this.connected) {
-      return;
-    }
     for (var i = 0; i < initialLines; i++) {
       this.add();
     }
-    this.connected = true
     addEventListener("beforeunload", (e) => {
       if ($$("div.linecontainer:not(.unpinned)").length > 0) {
         e.preventDefault();
@@ -148,6 +150,9 @@ class Lines extends HTMLDivElement {
     var ld = document.createElement("div", {is: "poem-line"});
     this.append(ld);
     ld.regen();
+    this.querySelectorAll("button[is=line-downer]").forEach((e) => {
+      e.checkDisabled();
+    })
   }
 }
 
