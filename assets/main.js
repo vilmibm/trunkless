@@ -67,8 +67,6 @@ class LineDowner extends Button {
 
   connectedCallback() {
     const count = $$("button[is=line-downer]").length;
-    console.log(count);
-    console.log(initialLines);
     if (count != initialLines) {
       return;
     }
