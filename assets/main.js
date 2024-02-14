@@ -1,6 +1,7 @@
 // nostalgia for a simpler, more complicated time
 const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
+const initialLines = 10;
 
 class Button extends HTMLButtonElement {
   constructor() {
@@ -25,24 +26,54 @@ class LineUpper extends Button {
   click() {
     const l = this.closest("div.linecontainer").parentElement;
     const s = l.previousElementSibling;
-    if (s == null) {
-      return;
-    }
     s.before(l);
+    this.checkDisabled();
+    s.querySelector("button[is=line-upper]").checkDisabled()
+    s.querySelector("button[is=line-downer]").checkDisabled()
   }
-  // TODO connectedCallback to disable this if first in list
-  // TODO change callback (i forget what it's called but i think i saw it) to enable if not first in list
+
+  checkDisabled() {
+    const l = this.closest("div.linecontainer").parentElement;
+    if (l.previousElementSibling == null) {
+      this.setAttribute("disabled", "yeah");
+    } else {
+      this.removeAttribute("disabled");
+    }
+  }
+
+  connectedCallback() {
+    this.checkDisabled();
+  }
 }
 
 class LineDowner extends Button {
   click() {
     const l = this.closest("div.linecontainer").parentElement;
     const s = l.nextElementSibling;
-    if (s == null)  return;
     s.after(l);
+    this.checkDisabled()
+    s.querySelector("button[is=line-downer]").checkDisabled()
+    s.querySelector("button[is=line-upper]").checkDisabled()
   }
-  // TODO connectedCallback to disable this if last in list
-  // TODO change callback (i forget what it's called but i think i saw it) to enable if not last in list
+
+  checkDisabled() {
+    const l = this.closest("div.linecontainer").parentElement;
+    if (l.nextElementSibling == null) {
+      this.setAttribute("disabled", "yeah");
+    } else {
+      this.removeAttribute("disabled");
+    }
+  }
+
+  connectedCallback() {
+    const count = $$("button[is=line-downer]").length;
+    console.log(count);
+    console.log(initialLines);
+    if (count != initialLines) {
+      return;
+    }
+    this.checkDisabled();
+  }
 }
 
 class LineAdder extends Button {
@@ -97,7 +128,7 @@ class Lines extends HTMLDivElement {
     if (this.connected) {
       return;
     }
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < initialLines; i++) {
       this.add();
     }
     this.connected = true

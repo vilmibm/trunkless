@@ -35,6 +35,8 @@ func main() {
 		'=': true,
 		'`': true,
 		'-': true,
+		// TODO try adding |. it breaks up content that we don't generally want,
+		// anyway, and will lead to short garby phrases being discarded. i think.
 	}
 
 	s := bufio.NewScanner(os.Stdin)
