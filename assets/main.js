@@ -1,3 +1,7 @@
+// nostalgia for a simpler, more complicated time
+const $ = document.querySelector.bind(document);
+const $$ = document.querySelectorAll.bind(document);
+
 class LineRemover extends HTMLButtonElement {
   constructor() {
     super();
@@ -24,7 +28,7 @@ class LineAdder extends HTMLButtonElement {
   constructor() {
     super();
     this.addEventListener("click", (e) => {
-      document.querySelector("div[is=lines-div]").add()
+      $("div[is=lines-div]").add()
     });
   }
 }
@@ -35,7 +39,7 @@ class PoemRegenner extends HTMLButtonElement {
   constructor() {
     super();
     this.addEventListener("click", () => {
-      document.querySelectorAll(".unpinned").forEach((e) => {
+      $$(".unpinned").forEach((e) => {
         e.parentElement.regen();
       });
     });
@@ -47,9 +51,16 @@ customElements.define("poem-regenner", PoemRegenner, {extends: "button"});
 class PoemLine extends HTMLDivElement {
   constructor() {
     super();
-    const ltp = document.querySelector("#linetmpl");
-    var l = ltp.content.cloneNode(true);
-    this.appendChild(l);
+    this.ltp = $("#linetmpl");
+    this.connected = false;
+  }
+
+  connectedCallback() {
+    if (this.connected) {
+      return;
+    }
+    this.appendChild(this.ltp.content.cloneNode(true));
+    this.connected = true;
   }
 
   regen() {
@@ -70,9 +81,17 @@ customElements.define("poem-line", PoemLine, {extends: "div"});
 class Lines extends HTMLDivElement {
   constructor() {
     super();
+    this.connected = false;
+  }
+
+  connectedCallback() {
+    if (this.connected) {
+      return;
+    }
     for (var i = 0; i < 10; i++) {
       this.add();
     }
+    this.connected = true
   }
 
   add() {
