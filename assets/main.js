@@ -13,7 +13,10 @@ class Button extends HTMLButtonElement {
 
 class LineRemover extends Button {
   click() {
-    this.closest("div.linecontainer").parentElement.remove();
+    const container = this.closest("div.linecontainer").parentElement;
+    const gp = container.parentElement;
+    container.remove();
+    gp.dispatchEvent(reorder);
   }
 }
 
@@ -31,16 +34,10 @@ class LinePinner extends Button {
 
 class LineUpper extends Button {
   click() {
-    // TODO debug why when I:
-    // - add a new line
-    // - move that line up
-    // the "down" button stays disabled
     const l = this.closest("div.linecontainer").parentElement;
     const s = l.previousElementSibling;
     s.before(l);
-    this.checkDisabled();
-    s.querySelector("button[is=line-upper]").checkDisabled()
-    s.querySelector("button[is=line-downer]").checkDisabled()
+    this.dispatchEvent(reorder);
   }
 
   checkDisabled() {
@@ -51,10 +48,6 @@ class LineUpper extends Button {
       this.removeAttribute("disabled");
     }
   }
-
-  connectedCallback() {
-    this.checkDisabled();
-  }
 }
 
 class LineDowner extends Button {
@@ -62,9 +55,7 @@ class LineDowner extends Button {
     const l = this.closest("div.linecontainer").parentElement;
     const s = l.nextElementSibling;
     s.after(l);
-    this.checkDisabled()
-    s.querySelector("button[is=line-downer]").checkDisabled()
-    s.querySelector("button[is=line-upper]").checkDisabled()
+    this.dispatchEvent(reorder);
   }
 
   checkDisabled() {
@@ -74,18 +65,6 @@ class LineDowner extends Button {
     } else {
       this.removeAttribute("disabled");
     }
-  }
-
-  connectedCallback() {
-    if (this.connected) {
-      return;
-    }
-    const count = $$("button[is=line-downer]").length;
-    if (count != initialLines) {
-      return;
-    }
-    this.checkDisabled();
-    this.connected = true;
   }
 }
 
@@ -133,6 +112,14 @@ class PoemLine extends HTMLDivElement {
 class Lines extends HTMLDivElement {
   constructor() {
     super();
+    this.addEventListener("reorder", () => {
+      this.querySelectorAll("button[is=line-downer]").forEach((e) => {
+       e.checkDisabled();
+      });
+      this.querySelectorAll("button[is=line-upper]").forEach((e) => {
+       e.checkDisabled();
+      });
+    });
   }
 
   connectedCallback() {
@@ -150,12 +137,11 @@ class Lines extends HTMLDivElement {
     var ld = document.createElement("div", {is: "poem-line"});
     this.append(ld);
     ld.regen();
-    this.querySelectorAll("button[is=line-downer]").forEach((e) => {
-      e.checkDisabled();
-    })
+    this.dispatchEvent(reorder);
   }
 }
 
+const reorder = new CustomEvent("reorder", {bubbles: true});
 customElements.define("line-remover", LineRemover, { extends: "button" });
 customElements.define("line-pinner", LinePinner, { extends: "button" });
 customElements.define("line-upper", LineUpper, { extends: "button" });
