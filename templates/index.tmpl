@@ -6,7 +6,7 @@
   #blueprint {
     display: none;
   }
-  div.linecontainer:not(.unpinned) {
+  div.line:not(.unpinned) {
     font-weight: bold;
   }
   button[is=line-pinner] {
@@ -16,16 +16,14 @@
   </head>
   <body>
     <template id="linetmpl">
-      <div class="linecontainer unpinned">
-        <span class="linecontrols">
-          <button is="line-pinner">pin</button>
-          <button >edit</button>
-          <button is="line-upper">up</button>
-          <button is="line-downer">down</button>
-          <button is="line-remover">remove</button>
-        </span>
-        <span class="linetext"></span>
-      </div>
+      <span class="linecontrols">
+        <button is="line-pinner">pin</button>
+        <button >edit</button>
+        <button is="line-upper">up</button>
+        <button is="line-downer">down</button>
+        <button is="line-remover">remove</button>
+      </span>
+      <span class="linetext"></span>
     </template>
     <h1>Trunkless</h1>
     <script src="/main.js"></script>

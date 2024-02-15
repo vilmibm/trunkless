@@ -13,7 +13,7 @@ class Button extends HTMLButtonElement {
 
 class LineRemover extends Button {
   click() {
-    const container = this.closest("div.linecontainer").parentElement;
+    const container = this.closest("div.line");
     const gp = container.parentElement;
     container.remove();
     gp.dispatchEvent(reorder);
@@ -22,7 +22,7 @@ class LineRemover extends Button {
 
 class LinePinner extends Button {
   click() {
-    const l = this.closest("div.linecontainer");
+    const l = this.closest("div.line");
     l.classList.toggle("unpinned");
     if (l.classList.contains("unpinned")) {
       this.innerText = "pin";
@@ -34,14 +34,14 @@ class LinePinner extends Button {
 
 class LineUpper extends Button {
   click() {
-    const l = this.closest("div.linecontainer").parentElement;
+    const l = this.closest("div.line");
     const s = l.previousElementSibling;
     s.before(l);
     this.dispatchEvent(reorder);
   }
 
   checkDisabled() {
-    const l = this.closest("div.linecontainer").parentElement;
+    const l = this.closest("div.line");
     if (l.previousElementSibling == null) {
       this.setAttribute("disabled", "yeah");
     } else {
@@ -52,14 +52,14 @@ class LineUpper extends Button {
 
 class LineDowner extends Button {
   click() {
-    const l = this.closest("div.linecontainer").parentElement;
+    const l = this.closest("div.line");
     const s = l.nextElementSibling;
     s.after(l);
     this.dispatchEvent(reorder);
   }
 
   checkDisabled() {
-    const l = this.closest("div.linecontainer").parentElement;
+    const l = this.closest("div.line");
     if (l.nextElementSibling == null) {
       this.setAttribute("disabled", "yeah");
     } else {
@@ -77,7 +77,7 @@ class LineAdder extends Button {
 class PoemRegenner extends Button {
   click() {
     $$(".unpinned").forEach((e) => {
-      e.parentElement.regen();
+      e.regen();
     });
   }
 }
@@ -131,7 +131,7 @@ class PoemLines extends HTMLDivElement {
   connectedCallback() {
     this.init();
     addEventListener("beforeunload", (e) => {
-      if ($$("div.linecontainer:not(.unpinned)").length > 0) {
+      if ($$("div.line:not(.unpinned)").length > 0) {
         e.preventDefault();
       }
     });
@@ -144,14 +144,16 @@ class PoemLines extends HTMLDivElement {
   }
 
   reset() {
-    this.querySelectorAll("div.linecontainer").forEach((e) => {
-      e.parentElement.remove();
+    this.querySelectorAll("div.line").forEach((e) => {
+      e.remove();
     });
     this.init()
   }
 
   add() {
     var ld = document.createElement("div", {is: "poem-line"});
+    ld.classList.add("line"); // div[is=poem-line] isn't working, idk why.
+    ld.classList.add("unpinned");
     this.append(ld);
     ld.regen();
     this.dispatchEvent(reorder);
