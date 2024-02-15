@@ -4,6 +4,13 @@ const $$ = document.querySelectorAll.bind(document);
 
 const initialLines = 10;
 
+// I am truly sorry
+function invoker(methodName) {
+  return function(a) {
+    return a[methodName]();
+  }
+}
+
 class Button extends HTMLButtonElement {
   constructor() {
     super();
@@ -76,9 +83,7 @@ class LineAdder extends Button {
 
 class PoemRegenner extends Button {
   click() {
-    $$(".unpinned").forEach((e) => {
-      e.regen();
-    });
+    $$(".unpinned").forEach(invoker("regen"));
   }
 }
 
@@ -119,12 +124,8 @@ class PoemLines extends HTMLDivElement {
   constructor() {
     super();
     this.addEventListener("reorder", () => {
-      this.querySelectorAll("button[is=line-downer]").forEach((e) => {
-       e.checkDisabled();
-      });
-      this.querySelectorAll("button[is=line-upper]").forEach((e) => {
-       e.checkDisabled();
-      });
+      $$("button[is=line-downer]").forEach(invoker("checkDisabled"));
+      $$("button[is=line-upper]").forEach(invoker("checkDisabled"));
     });
   }
 
@@ -144,9 +145,7 @@ class PoemLines extends HTMLDivElement {
   }
 
   reset() {
-    this.querySelectorAll("div.line").forEach((e) => {
-      e.remove();
-    });
+    this.querySelectorAll("div.line").forEach(invoker("remove"));
     this.init()
   }
 
