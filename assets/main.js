@@ -70,7 +70,7 @@ class LineDowner extends Button {
 
 class LineAdder extends Button {
   click() {
-    $("div[is=lines-div]").add()
+    $("div[is=poem-lines]").add()
   }
 }
 
@@ -79,6 +79,12 @@ class PoemRegenner extends Button {
     $$(".unpinned").forEach((e) => {
       e.parentElement.regen();
     });
+  }
+}
+
+class PoemResetter extends Button {
+  click() {
+    $("div[is=poem-lines]").reset();
   }
 }
 
@@ -109,7 +115,7 @@ class PoemLine extends HTMLDivElement {
   }
 }
 
-class Lines extends HTMLDivElement {
+class PoemLines extends HTMLDivElement {
   constructor() {
     super();
     this.addEventListener("reorder", () => {
@@ -123,14 +129,25 @@ class Lines extends HTMLDivElement {
   }
 
   connectedCallback() {
-    for (var i = 0; i < initialLines; i++) {
-      this.add();
-    }
+    this.init();
     addEventListener("beforeunload", (e) => {
       if ($$("div.linecontainer:not(.unpinned)").length > 0) {
         e.preventDefault();
       }
     });
+  }
+
+  init() {
+    for (var i = 0; i < initialLines; i++) {
+      this.add();
+    }
+  }
+
+  reset() {
+    this.querySelectorAll("div.linecontainer").forEach((e) => {
+      e.parentElement.remove();
+    });
+    this.init()
   }
 
   add() {
@@ -148,5 +165,6 @@ customElements.define("line-upper", LineUpper, { extends: "button" });
 customElements.define("line-downer", LineDowner, { extends: "button" });
 customElements.define("line-adder", LineAdder, { extends: "button" });
 customElements.define("poem-regenner", PoemRegenner, {extends: "button"});
+customElements.define("poem-resetter", PoemResetter, {extends: "button"});
 customElements.define("poem-line", PoemLine, {extends: "div"});
-customElements.define("lines-div", Lines, {extends: "div"});
+customElements.define("poem-lines", PoemLines, {extends: "div"});
