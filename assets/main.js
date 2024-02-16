@@ -28,6 +28,9 @@ class LineRemover extends Button {
 }
 
 class LinePinner extends Button {
+  connectedCallback() {
+    this.setAttribute("style", "min-width:4em");
+  }
   click() {
     const l = this.closest("div.line");
     l.classList.toggle("unpinned");
