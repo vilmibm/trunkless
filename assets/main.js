@@ -60,6 +60,13 @@ class LineUpper extends Button {
   }
 }
 
+class LineEditor extends Button {
+  click() {
+    // TODO replace linetext with input
+    // TODO update button text to "done"
+  }
+}
+
 class LineDowner extends Button {
   click() {
     const l = this.closest("div.line");
@@ -165,6 +172,7 @@ class PoemLines extends HTMLDivElement {
 const reorder = new CustomEvent("reorder", {bubbles: true});
 customElements.define("line-remover", LineRemover, { extends: "button" });
 customElements.define("line-pinner", LinePinner, { extends: "button" });
+customElements.define("line-editor", LineEditor, { extends: "button" });
 customElements.define("line-upper", LineUpper, { extends: "button" });
 customElements.define("line-downer", LineDowner, { extends: "button" });
 customElements.define("line-adder", LineAdder, { extends: "button" });
