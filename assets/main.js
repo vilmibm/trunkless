@@ -15,6 +15,7 @@ class Button extends HTMLButtonElement {
   constructor() {
     super();
     this.addEventListener("click", this.click);
+    this.setAttribute("style", "min-width:4em");
   }
 }
 
@@ -28,9 +29,6 @@ class LineRemover extends Button {
 }
 
 class LinePinner extends Button {
-  connectedCallback() {
-    this.setAttribute("style", "min-width:4em");
-  }
   click() {
     const l = this.closest("div.line");
     l.classList.toggle("unpinned");
@@ -61,9 +59,48 @@ class LineUpper extends Button {
 }
 
 class LineEditor extends Button {
+  connectedCallback() {
+    this.span = this.closest(".line").querySelector("span.linetext");
+    this.f = document.createElement("form");
+    this.i = document.createElement("input");
+    const b = document.createElement("input");
+    this.f.setAttribute("style", "display: inline");
+    this.i.setAttribute("name", "editedLine");
+    this.i.setAttribute("style", "min-width: 50em");
+    b.setAttribute("type", "submit");
+    b.setAttribute("style", "display: none");
+    this.f.appendChild(this.i);
+    this.f.appendChild(b);
+    this.f.addEventListener("submit", (e) => {
+      e.preventDefault();
+      this.done()
+    })
+  }
+  done() {
+      this.editing = false;
+      this.innerText = "edit";
+      this.span.innerText = this.i.value;
+      this.f.remove();
+      this.span.setAttribute("style", "display:inline");
+  }
   click() {
-    // TODO replace linetext with input
-    // TODO update button text to "done"
+    if (this.editing) {
+      this.done();
+      return;
+    }
+    this.editing = true;
+    this.innerText = "done";
+    this.span.setAttribute("style", "display:none");
+    this.i.value = this.span.innerText;
+    this.parentElement.appendChild(this.f);
+    this.i.focus();
+  }
+}
+
+class LineInput extends HTMLInputElement {
+  constructor() {
+    super();
+    this.setAttribute("type", "text");
   }
 }
 
