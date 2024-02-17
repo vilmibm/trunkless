@@ -61,27 +61,19 @@ class LineUpper extends Button {
 class LineEditor extends Button {
   connectedCallback() {
     this.span = this.closest(".line").querySelector("span.linetext");
-    this.f = document.createElement("form");
-    this.i = document.createElement("input");
-    const b = document.createElement("input");
-    this.f.setAttribute("style", "display: inline");
-    this.i.setAttribute("name", "editedLine");
-    this.i.setAttribute("style", "min-width: 50em");
-    b.setAttribute("type", "submit");
-    b.setAttribute("style", "display: none");
-    this.f.appendChild(this.i);
-    this.f.appendChild(b);
+    this.f = $("#line-editor-tmpl").content.firstElementChild.cloneNode(true);
+    this.i = this.f.querySelector("input[type=text]");
     this.f.addEventListener("submit", (e) => {
       e.preventDefault();
-      this.done()
+      this.done();
     })
   }
   done() {
-      this.editing = false;
-      this.innerText = "edit";
-      this.span.innerText = this.i.value;
-      this.f.remove();
-      this.span.setAttribute("style", "display:inline");
+    this.editing = false;
+    this.innerText = "edit";
+    this.span.innerText = this.i.value;
+    this.f.remove();
+    this.span.setAttribute("style", "display:inline");
   }
   click() {
     if (this.editing) {

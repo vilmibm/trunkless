@@ -9,6 +9,12 @@
 </style>
   </head>
   <body>
+    <template id="line-editor-tmpl">
+      <form style="display:inline">
+        <input type="text" name="editedLine" style="min-width: 50em">
+        <input type="submit" style="display: none">
+      </form>
+    </template>
     <template id="linetmpl">
       <span class="linecontrols">
         <button is="line-pinner">pin</button>
