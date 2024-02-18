@@ -185,7 +185,7 @@ class PoemLines extends HTMLDivElement {
 
   reset() {
     this.querySelectorAll("div.line").forEach(invoker("remove"));
-    this.init()
+    this.init();
   }
 
   add() {
