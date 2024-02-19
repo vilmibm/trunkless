@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"math/big"
@@ -93,12 +92,6 @@ func main() {
 		if err != nil {
 			log.Println(err.Error())
 			c.String(http.StatusInternalServerError, "oh no.")
-		}
-		sourceSplit := strings.SplitN(s.Name, " ", 2)
-		if len(sourceSplit) > 1 {
-			s.Name = fmt.Sprintf("%s (%s)",
-				strings.TrimSpace(sourceSplit[1]),
-				strings.TrimSpace(sourceSplit[0]))
 		}
 		p.Source = s
 		p.ID = id.Int64()

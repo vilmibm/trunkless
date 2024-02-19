@@ -20,6 +20,18 @@ class Button extends HTMLButtonElement {
   }
 }
 
+class SourceShower extends Button {
+  click() {
+    this.closest("div.line").querySelector("p[is=source-text]").toggle()
+    if (this.innerText == "see source") {
+      this.innerText = "hide source";
+    } else {
+      this.innerText = "see source";
+    }
+  }
+}
+
+
 class LineRemover extends Button {
   click() {
     const container = this.closest("div.line");
@@ -140,7 +152,7 @@ class PoemLine extends HTMLDivElement {
     this.ltp = $("#linetmpl");
     this.addEventListener("edited", (e) => {
       e.preventDefault();
-      this.querySelector("span[is=dna-square]").edited();
+      this.querySelector("p[is=source-text]").edited();
     });
   }
 
@@ -166,8 +178,8 @@ class PoemLine extends HTMLDivElement {
     }).then((payload) => {
       this.querySelector(".linetext").innerText = payload.Text;
       this.querySelector(".linetext").setAttribute("data-source", payload.Source.Name);
-      this.querySelector("span[is=dna-square]").update(payload.Source);
       this.originalText = payload.Text;
+      this.querySelector("p[is=source-text]").update(payload.Source);
     });
   }
 }
@@ -221,29 +233,47 @@ class SourceText extends HTMLParagraphElement {
   }
 
   connectedCallback() {
-    this.setAttribute("style", `
-      border: 1px solid white;
-      display: inline-block;
-      width: 1em;
-      height: 1em;
-      vertical-align: middle;`);
+    this.setAttribute("style", `display: none;`);
+  }
+
+  toggle() {
+    if (this.style.display == "none") {
+      this.style.display = "block";
+    } else {
+      this.style.display = "none";
+    }
   }
 
   edited() {
+    const line = this.parentElement;
+    const text = line.querySelector("span.linetext").innerText;
+    const orig = line.originalText;
+    if (text == "" || (text != orig && !orig.includes(text))) {
+      this.update({"Name": "original"});
+    }
   }
 
   update(source) {
-    var title = source.Name;
-    this.setAttribute("title", source.Name);
-    //this.style.backgroundColor = stringColor(source.Name);
-    this.style.backgroundColor = "black";
-    this.style.borderColor = "white";
+    if (source.Name.startsWith("pg")) {
+      const fullGutID = source.Name.split(" ", 2)[0];
+      const sourceName = source.Name.slice(source.Name.indexOf(' '));
+      const gutID = fullGutID.match(/^pg(.+).txt$/)[1];
+      console.log(fullGutID, sourceName, gutID);
+      const url = `https://www.gutenberg.org/cache/epub/${gutID}/pg${gutID}.txt`;
+      this.innerHTML = `
+      <span>${sourceName}</span> (<a href="${url}">${fullGutID}</a>)`
+    } else {
+      this.innerHTML = `<span>${source.Name}</span>`;
+    }
   }
 }
+
+// TODO show source button
 
 const reorder = new CustomEvent("reorder", {bubbles: true});
 const edited = new CustomEvent("edited", {bubbles: true});
 customElements.define("source-text", SourceText, { extends: "p" });
+customElements.define("source-shower", SourceShower, { extends: "button" });
 customElements.define("line-remover", LineRemover, { extends: "button" });
 customElements.define("line-pinner", LinePinner, { extends: "button" });
 customElements.define("line-editor", LineEditor, { extends: "button" });
