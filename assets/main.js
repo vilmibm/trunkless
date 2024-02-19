@@ -15,7 +15,7 @@ class Button extends HTMLButtonElement {
   constructor() {
     super();
     this.addEventListener("click", this.click);
-    this.setAttribute("style", "min-width:4em");
+    this.setAttribute("style", "min-width:2.3em");
   }
 }
 
@@ -43,13 +43,16 @@ class LineRemover extends Button {
 }
 
 class LinePinner extends Button {
+  connectedCallback() {
+    this.innerText = "pin";
+  }
   click() {
     const l = this.closest("div.line");
     l.classList.toggle("unpinned");
     if (l.classList.contains("unpinned")) {
       this.innerText = "pin";
     } else {
-      this.innerText = "unpin";
+      this.innerHTML = "<strong>pin</strong>";
     }
   }
 }
@@ -84,7 +87,7 @@ class LineEditor extends Button {
   }
   done() {
     this.editing = false;
-    this.innerText = "edit";
+    this.innerText = "✎";
     this.span.innerText = this.i.value;
     this.f.remove();
     this.span.setAttribute("style", "display:inline");
@@ -96,7 +99,7 @@ class LineEditor extends Button {
       return;
     }
     this.editing = true;
-    this.innerText = "done";
+    this.innerHTML = "<strong>✓</strong>";
     this.span.setAttribute("style", "display:none");
     this.i.value = this.span.innerText;
     this.parentElement.appendChild(this.f);
