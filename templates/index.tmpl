@@ -3,7 +3,7 @@
   <head>
     <title>Trunkless</title>
 <style>
-  div.line:not(.unpinned) {
+div.line:not(.unpinned) > .linetext {
     font-weight: bold;
   }
 </style>
@@ -22,7 +22,7 @@
         <button is="line-upper">up</button>
         <button is="line-downer">down</button>
         <button is="line-remover">remove</button>
-        <button is="source-shower">show source</button>
+        <button is="source-shower"></button>
       </span>
       <span class="linetext"></span>
       <p is="source-text"></p>

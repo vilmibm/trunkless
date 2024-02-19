@@ -20,16 +20,18 @@ class Button extends HTMLButtonElement {
 }
 
 class SourceShower extends Button {
+  connectedCallback() {
+    this.innerText = "?"
+  }
   click() {
     this.closest("div.line").querySelector("p[is=source-text]").toggle()
-    if (this.innerText == "show source") {
-      this.innerText = "hide source";
+    if (this.innerHTML.includes("strong")) {
+      this.innerHTML = "?";
     } else {
-      this.innerText = "show source";
+      this.innerHTML = "<strong>?</strong>";
     }
   }
 }
-
 
 class LineRemover extends Button {
   click() {
