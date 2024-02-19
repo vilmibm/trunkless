@@ -3,6 +3,20 @@
   <head>
     <title>Trunkless</title>
 <style>
+@font-face {
+  font-family: "cutive";
+  src: url("/cutive.ttf");
+}
+
+body {
+  font-family: "cutive", monospace;
+  font-size:125%;
+}
+
+a {
+  color: black;
+}
+
 div.line:not(.unpinned) > .linetext {
   font-weight: bold;
 }
@@ -39,7 +53,7 @@ div.line:not(.unpinned) > .linetext {
       <button>save as image</button>
     </p>
     <div style="margin-bottom: 5px">
-      <button is="poem-regenner">regenerate unpinned lines</button>
+      <button is="poem-regenner">↺</button>
     </div>
     <div is="poem-lines"></div>
     <div>

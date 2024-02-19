@@ -46,6 +46,7 @@ func main() {
 		"upper": strings.ToUpper,
 	})
 	r.LoadHTMLFiles("templates/index.tmpl")
+	r.StaticFile("/cutive.ttf", "./assets/cutive.ttf")
 	r.StaticFile("/favicon.ico", "./assets/favicon.ico")
 	r.StaticFile("/main.js", "./assets/main.js")
 

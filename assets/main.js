@@ -157,6 +157,9 @@ class LineAdder extends Button {
 }
 
 class PoemRegenner extends Button {
+  connectedCallback() {
+    this.setAttribute("title", "regenerate unpinnned lines");
+  }
   click() {
     $("div[is=poem-lines]").regenerate();
   }
