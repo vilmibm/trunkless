@@ -128,6 +128,7 @@ func clean(bs []byte) string {
 
 	// TODO strip _
 	// TODO strip *
+	// TODO strip (,{,[
 
 	if alphaPercent(s) < 50.0 {
 		return ""

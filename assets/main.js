@@ -122,7 +122,7 @@ class LineAdder extends Button {
 
 class PoemRegenner extends Button {
   click() {
-    $$(".unpinned").forEach(invoker("regen"));
+    $("div[is=poem-lines]").regenerate();
   }
 }
 
@@ -146,6 +146,11 @@ class PoemLine extends HTMLDivElement {
     this.connected = true;
   }
 
+  get source() {
+    console.log(this.querySelector("span.linetext"));
+    return this.querySelector("span.linetext").dataset.source;
+  }
+
   regen() {
     fetch(new Request("/line")).then((resp) => {
       if (!resp.ok) {
@@ -155,6 +160,7 @@ class PoemLine extends HTMLDivElement {
     }).then((payload) => {
       this.querySelector(".linetext").innerText = payload.Text;
       this.querySelector(".linetext").setAttribute("data-source", payload.Source.Name);
+      this.querySelector("span[is=dna-square]").update(payload.Source);
     });
   }
 }
@@ -163,15 +169,15 @@ class PoemLines extends HTMLDivElement {
   constructor() {
     super();
     this.addEventListener("reorder", () => {
-      $$("button[is=line-downer]").forEach(invoker("checkDisabled"));
-      $$("button[is=line-upper]").forEach(invoker("checkDisabled"));
+      this.querySelectorAll("button[is=line-downer]").forEach(invoker("checkDisabled"));
+      this.querySelectorAll("button[is=line-upper]").forEach(invoker("checkDisabled"));
     });
   }
 
   connectedCallback() {
     this.init();
     addEventListener("beforeunload", (e) => {
-      if ($$("div.line:not(.unpinned)").length > 0) {
+      if (this.querySelectorAll("div.line:not(.unpinned)").length > 0) {
         e.preventDefault();
       }
     });
@@ -184,7 +190,7 @@ class PoemLines extends HTMLDivElement {
   }
 
   reset() {
-    this.querySelectorAll("div.line").forEach(invoker("remove"));
+    this.querySelectorAll("*").forEach(invoker("remove"));
     this.init();
   }
 
@@ -196,9 +202,34 @@ class PoemLines extends HTMLDivElement {
     ld.regen();
     this.dispatchEvent(reorder);
   }
+
+  regenerate() {
+    this.querySelectorAll(".unpinned").forEach(invoker("regen"));
+  }
+}
+
+class DNASquare extends HTMLSpanElement {
+  constructor() {
+    super();
+  }
+  connectedCallback() {
+    this.setAttribute("style", `
+      background-color: black;
+      border: 1px solid white;
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      vertical-align: middle;`);
+  }
+  update(source) {
+    var title = `${source.Name} (${source.GutID})`;
+    this.setAttribute("title", title);
+    console.log(this);
+  }
 }
 
 const reorder = new CustomEvent("reorder", {bubbles: true});
+customElements.define("dna-square", DNASquare, { extends: "span" });
 customElements.define("line-remover", LineRemover, { extends: "button" });
 customElements.define("line-pinner", LinePinner, { extends: "button" });
 customElements.define("line-editor", LineEditor, { extends: "button" });
