@@ -3,7 +3,6 @@ const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
 const initialLines = 10;
-const originalityThresh = 10;
 
 // I am truly sorry
 function invoker(methodName) {
@@ -23,10 +22,10 @@ class Button extends HTMLButtonElement {
 class SourceShower extends Button {
   click() {
     this.closest("div.line").querySelector("p[is=source-text]").toggle()
-    if (this.innerText == "see source") {
+    if (this.innerText == "show source") {
       this.innerText = "hide source";
     } else {
-      this.innerText = "see source";
+      this.innerText = "show source";
     }
   }
 }
@@ -267,8 +266,6 @@ class SourceText extends HTMLParagraphElement {
     }
   }
 }
-
-// TODO show source button
 
 const reorder = new CustomEvent("reorder", {bubbles: true});
 const edited = new CustomEvent("edited", {bubbles: true});
