@@ -35,7 +35,7 @@ class LinePinner extends Button {
     if (l.classList.contains("unpinned")) {
       this.innerText = "pin";
     } else {
-      this.innerText = "upin";
+      this.innerText = "unpin";
     }
   }
 }
