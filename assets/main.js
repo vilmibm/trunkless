@@ -24,6 +24,7 @@ class SourceShower extends Button {
     this.innerText = "?"
     this.setAttribute("title", "show source");
   }
+
   click() {
     this.closest("div.line").querySelector("p[is=source-text]").toggle()
     if (this.innerHTML.includes("strong")) {
@@ -293,8 +294,33 @@ class SourceText extends HTMLParagraphElement {
   }
 }
 
+class ThemeToggler extends HTMLAnchorElement {
+  constructor() {
+    super();
+    this.addEventListener("click", this.click);
+    this.theme = "light";
+    this.innerText = "◑";
+    this.setAttribute("aria-hidden", "true");
+    this.style.cursor = "pointer";
+  }
+  click() {
+    if (this.theme == "light") {
+      this.theme = "dark";
+      $("body").style.background = "black";
+      $("body").style.color = "white";
+      $$("a").forEach((e) => { e.style.color = "white" });
+    } else {
+      this.theme = "light";
+      $("body").style.background = "white";
+      $("body").style.color = "black";
+      $$("a").forEach((e) => { e.style.color = "black" });
+    }
+  }
+}
+
 const reorder = new CustomEvent("reorder", {bubbles: true});
 const edited = new CustomEvent("edited", {bubbles: true});
+customElements.define("theme-toggler", ThemeToggler, { extends: "a" });
 customElements.define("source-text", SourceText, { extends: "p" });
 customElements.define("source-shower", SourceShower, { extends: "button" });
 customElements.define("line-remover", LineRemover, { extends: "button" });
