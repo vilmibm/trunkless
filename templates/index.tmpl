@@ -16,7 +16,7 @@ div.line:not(.unpinned) > .linetext {
       </form>
     </template>
     <template id="linetmpl">
-      <span class="linecontrols">
+      <span>
         <button is="line-pinner">pin</button>
         <button is="line-editor">✎</button>
         <button is="line-upper">↑</button>
@@ -33,14 +33,17 @@ div.line:not(.unpinned) > .linetext {
       <a href="/about">about</a>
       <a id="togglescheme" href="/#togglescheme">light|dark</a>
     </div>
-    <p id="poemcontrols">
-      <button is="poem-regenner">regenerate unpinned lines</button>
+    <p>
       <button is="poem-resetter">new</button>
-      <button id="save">save</button>
+      <button>save as text</button>
+      <button>save as image</button>
     </p>
+    <div style="margin-bottom: 5px">
+      <button is="poem-regenner">regenerate unpinned lines</button>
+    </div>
     <div is="poem-lines"></div>
     <div>
-      <button is="line-adder">add</button>
+      <button is="line-adder" title="add line">+</button>
     </div>
   </body>
 </html>

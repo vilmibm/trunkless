@@ -22,18 +22,24 @@ class Button extends HTMLButtonElement {
 class SourceShower extends Button {
   connectedCallback() {
     this.innerText = "?"
+    this.setAttribute("title", "show source");
   }
   click() {
     this.closest("div.line").querySelector("p[is=source-text]").toggle()
     if (this.innerHTML.includes("strong")) {
       this.innerHTML = "?";
+      this.setAttribute("title", "show source");
     } else {
       this.innerHTML = "<strong>?</strong>";
+      this.setAttribute("title", "hide source");
     }
   }
 }
 
 class LineRemover extends Button {
+  connectedCallback() {
+    this.setAttribute("title", "remove line");
+  }
   click() {
     const container = this.closest("div.line");
     const gp = container.parentElement;
@@ -45,19 +51,25 @@ class LineRemover extends Button {
 class LinePinner extends Button {
   connectedCallback() {
     this.innerText = "pin";
+    this.setAttribute("title", "pin line in place");
   }
   click() {
     const l = this.closest("div.line");
     l.classList.toggle("unpinned");
     if (l.classList.contains("unpinned")) {
       this.innerText = "pin";
+      this.setAttribute("title", "pin line in place");
     } else {
       this.innerHTML = "<strong>pin</strong>";
+      this.setAttribute("title", "unpin line");
     }
   }
 }
 
 class LineUpper extends Button {
+  connectedCallback() {
+    this.setAttribute("title", "move line up");
+  }
   click() {
     const l = this.closest("div.line");
     const s = l.previousElementSibling;
@@ -77,6 +89,7 @@ class LineUpper extends Button {
 
 class LineEditor extends Button {
   connectedCallback() {
+    this.setAttribute("title", "edit line text");
     this.span = this.closest(".line").querySelector("span.linetext");
     this.f = $("#line-editor-tmpl").content.firstElementChild.cloneNode(true);
     this.i = this.f.querySelector("input[type=text]");
@@ -86,6 +99,7 @@ class LineEditor extends Button {
     })
   }
   done() {
+    this.setAttribute("title", "edit line text");
     this.editing = false;
     this.innerText = "✎";
     this.span.innerText = this.i.value;
@@ -99,6 +113,7 @@ class LineEditor extends Button {
       return;
     }
     this.editing = true;
+    this.setAttribute("title", "finish editing");
     this.innerHTML = "<strong>✓</strong>";
     this.span.setAttribute("style", "display:none");
     this.i.value = this.span.innerText;
@@ -115,6 +130,9 @@ class LineInput extends HTMLInputElement {
 }
 
 class LineDowner extends Button {
+  connectedCallback() {
+    this.setAttribute("title", "move line down");
+  }
   click() {
     const l = this.closest("div.line");
     const s = l.nextElementSibling;
