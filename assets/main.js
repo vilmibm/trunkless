@@ -3,6 +3,7 @@ const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
 const initialLines = 10;
+const originalityThresh = 10;
 
 // I am truly sorry
 function invoker(methodName) {
@@ -74,6 +75,7 @@ class LineEditor extends Button {
     this.span.innerText = this.i.value;
     this.f.remove();
     this.span.setAttribute("style", "display:inline");
+    this.dispatchEvent(edited);
   }
   click() {
     if (this.editing) {
@@ -136,6 +138,10 @@ class PoemLine extends HTMLDivElement {
   constructor() {
     super();
     this.ltp = $("#linetmpl");
+    this.addEventListener("edited", (e) => {
+      e.preventDefault();
+      this.querySelector("span[is=dna-square]").edited();
+    });
   }
 
   connectedCallback() {
@@ -161,6 +167,7 @@ class PoemLine extends HTMLDivElement {
       this.querySelector(".linetext").innerText = payload.Text;
       this.querySelector(".linetext").setAttribute("data-source", payload.Source.Name);
       this.querySelector("span[is=dna-square]").update(payload.Source);
+      this.originalText = payload.Text;
     });
   }
 }
@@ -208,28 +215,35 @@ class PoemLines extends HTMLDivElement {
   }
 }
 
-class DNASquare extends HTMLSpanElement {
+class SourceText extends HTMLParagraphElement {
   constructor() {
     super();
   }
+
   connectedCallback() {
     this.setAttribute("style", `
-      background-color: black;
       border: 1px solid white;
       display: inline-block;
       width: 1em;
       height: 1em;
       vertical-align: middle;`);
   }
+
+  edited() {
+  }
+
   update(source) {
-    var title = `${source.Name} (${source.GutID})`;
-    this.setAttribute("title", title);
-    console.log(this);
+    var title = source.Name;
+    this.setAttribute("title", source.Name);
+    //this.style.backgroundColor = stringColor(source.Name);
+    this.style.backgroundColor = "black";
+    this.style.borderColor = "white";
   }
 }
 
 const reorder = new CustomEvent("reorder", {bubbles: true});
-customElements.define("dna-square", DNASquare, { extends: "span" });
+const edited = new CustomEvent("edited", {bubbles: true});
+customElements.define("source-text", SourceText, { extends: "p" });
 customElements.define("line-remover", LineRemover, { extends: "button" });
 customElements.define("line-pinner", LinePinner, { extends: "button" });
 customElements.define("line-editor", LineEditor, { extends: "button" });

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"math/big"
@@ -30,9 +31,8 @@ func connectDB() (*sql.DB, error) {
 }
 
 type source struct {
-	ID    int64
-	Name  string
-	GutID string
+	ID   int64
+	Name string
 }
 
 type phrase struct {
@@ -96,8 +96,9 @@ func main() {
 		}
 		sourceSplit := strings.SplitN(s.Name, " ", 2)
 		if len(sourceSplit) > 1 {
-			s.Name = strings.TrimSpace(sourceSplit[1])
-			s.GutID = strings.TrimSpace(sourceSplit[0])
+			s.Name = fmt.Sprintf("%s (%s)",
+				strings.TrimSpace(sourceSplit[1]),
+				strings.TrimSpace(sourceSplit[0]))
 		}
 		p.Source = s
 		p.ID = id.Int64()
