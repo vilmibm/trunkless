@@ -4,3 +4,6 @@ cmd/ingest/gutingest
 cmd/phraser/phraser
 cmd/gutcontent/gutcontent
 *.swp
+node_modules
+package.json
+package-lock.json

@@ -191,7 +191,6 @@ class PoemLine extends HTMLDivElement {
   }
 
   get source() {
-    console.log(this.querySelector("span.linetext"));
     return this.querySelector("span.linetext").dataset.source;
   }
 
@@ -284,7 +283,6 @@ class SourceText extends HTMLParagraphElement {
       const fullGutID = source.Name.split(" ", 2)[0];
       const sourceName = source.Name.slice(source.Name.indexOf(' '));
       const gutID = fullGutID.match(/^pg(.+).txt$/)[1];
-      console.log(fullGutID, sourceName, gutID);
       const url = `https://www.gutenberg.org/cache/epub/${gutID}/pg${gutID}.txt`;
       this.innerHTML = `
       <span>${sourceName}</span> (<a href="${url}">${fullGutID}</a>)`
@@ -298,7 +296,7 @@ class ThemeToggler extends HTMLAnchorElement {
   constructor() {
     super();
     this.addEventListener("click", this.click);
-    this.theme = "light";
+    this.theme = "dark";
     this.innerText = "◑";
     this.setAttribute("aria-hidden", "true");
     this.style.cursor = "pointer";
@@ -306,14 +304,18 @@ class ThemeToggler extends HTMLAnchorElement {
   click() {
     if (this.theme == "light") {
       this.theme = "dark";
-      $("body").style.background = "black";
+      $("body").style.backgroundColor = "black";
+      $("body").style.backgroundImage = 'url("/bg_dark.gif")';
       $("body").style.color = "white";
       $$("a").forEach((e) => { e.style.color = "white" });
+      $$("span.linetext").forEach((e) => { e.style.backgroundColor = "black" });
     } else {
       this.theme = "light";
-      $("body").style.background = "white";
+      $("body").style.backgroundColor = "white";
+      $("body").style.backgroundImage = 'url("/bg_light.gif")';
       $("body").style.color = "black";
       $$("a").forEach((e) => { e.style.color = "black" });
+      $$("span.linetext").forEach((e) => { e.style.backgroundColor = "white" });
     }
   }
 }

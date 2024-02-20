@@ -48,6 +48,8 @@ func main() {
 	r.LoadHTMLFiles("templates/index.tmpl")
 	r.StaticFile("/cutive.ttf", "./assets/cutive.ttf")
 	r.StaticFile("/favicon.ico", "./assets/favicon.ico")
+	r.StaticFile("/bg_light.gif", "./assets/bg_light.gif")
+	r.StaticFile("/bg_dark.gif", "./assets/bg_dark.gif")
 	r.StaticFile("/main.js", "./assets/main.js")
 
 	randMax := big.NewInt(maxID)
