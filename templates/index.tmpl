@@ -29,6 +29,14 @@ div.line:not(.unpinned) > .linetext {
 span.linetext {
   background-color: black;
 }
+.controls {
+  margin: 0;
+  margin-bottom:4px;
+}
+
+.controls span {
+  font-size: 80%;
+}
 </style>
   </head>
   <body>
@@ -46,17 +54,17 @@ span.linetext {
       <p is="source-text"></p>
     </template>
     <script src="/main.js"></script>
-    <h1 style="display:inline-block">Trunkless</h1>
-    <div style="display:inline-block; width:20% "></div>
-    <div id="pagecontrols" style="display:inline-block;">
-      <a href="/about">about</a>
-      <a is="theme-toggler"></a>
-    </div>
-    <p>
-      <button is="poem-resetter">new</button>
-      <button>save as text</button>
-      <button>save as image</button>
+    <h1 style="display:block;margin:0">Trunkless</h1>
+    <p style="margin-top:0;font-size:80%">
+        <a href="/about">about</a>
+        <a is="theme-toggler"></a>
     </p>
+    <p class="controls">
+      <button is="poem-resetter"></button>
+      <!--<span>source:</span><select><option>gutenberg</option></select>-->
+      <span>save:</span><button>as text</button><button>as image</button><input type="checkbox"/><span>include sources</span>
+    </p>
+    <div style="border: 1px solid grey; padding: 5px">
     <div style="margin-bottom: 5px">
       <button is="poem-regenner">↺</button>
     </div>
@@ -64,6 +72,6 @@ span.linetext {
     <div>
       <button is="line-adder" title="add line">+</button>
     </div>
+    </div>
   </body>
 </html>
-

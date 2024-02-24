@@ -167,6 +167,10 @@ class PoemRegenner extends Button {
 }
 
 class PoemResetter extends Button {
+  connectedCallback() {
+    // TODO set title
+    this.innerText = "reset";
+  }
   click() {
     $("div[is=poem-lines]").reset();
   }
