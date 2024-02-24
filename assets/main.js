@@ -340,7 +340,29 @@ class PoemSaver extends HTMLFormElement {
   }
 
   saveText(includeSources) {
-    console.log(includeSources);
+    var text = "";
+    var sources = "";
+    $$(".line").forEach((e) => {
+      text += e.innerText + "\n";
+      sources += e.dataset.source + "\n"
+    })
+    if (includeSources) {
+      text += "\n\nsources:\n" + sources;
+    }
+
+    // TODO getting the line controls included
+    // TODO timestamp has decimal place
+    // TODO sources undefined
+
+    const blob = new Blob([text], {type: "text/plain"});
+    const fname = `trunkless-poem-${Date.now()/1000}.txt`
+    const dlink = document.createElement("a");
+    dlink.download = fname;
+    dlink.href = window.URL.createObjectURL(blob);
+    dlink.addEventListener("click", (e)=>{e.target.remove()});
+    dlink.style.display = "none";
+    $("body").appendChild(dlink);
+    dlink.click();
   }
 
   saveImage(includeSources) {
