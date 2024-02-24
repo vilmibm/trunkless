@@ -32,10 +32,7 @@ span.linetext {
 .controls {
   margin: 0;
   margin-bottom:4px;
-}
-
-.controls span {
-  font-size: 80%;
+  font-size:80%;
 }
 </style>
   </head>
@@ -59,19 +56,24 @@ span.linetext {
         <a href="/about">about</a>
         <a is="theme-toggler"></a>
     </p>
-    <p class="controls">
+    <div class="controls">
       <button is="poem-resetter"></button>
-      <!--<span>source:</span><select><option>gutenberg</option></select>-->
-      <span>save:</span><button>as text</button><button>as image</button><input type="checkbox"/><span>include sources</span>
-    </p>
+
+      <form is="poem-saver" style="border: 1px solid grey; display:inline; padding:4px;">
+        <input name="type" value="text" type="radio" checked="true"/>as text
+        <input name="type" value="image" type="radio"/>as image
+        <input name="sources" type="checkbox"/>include sources
+        <button type="submit">save</button>
+      </form>
+    </div>
     <div style="border: 1px solid grey; padding: 5px">
-    <div style="margin-bottom: 5px">
-      <button is="poem-regenner">↺</button>
-    </div>
-    <div is="poem-lines"></div>
-    <div>
-      <button is="line-adder" title="add line">+</button>
-    </div>
+      <div style="margin-bottom: 5px">
+        <button is="poem-regenner">↺</button>
+      </div>
+      <div is="poem-lines"></div>
+      <div>
+        <button is="line-adder" title="add line">+</button>
+      </div>
     </div>
   </body>
 </html>

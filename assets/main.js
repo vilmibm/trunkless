@@ -324,8 +324,34 @@ class ThemeToggler extends HTMLAnchorElement {
   }
 }
 
+
+class PoemSaver extends HTMLFormElement {
+  connectedCallback() {
+    this.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const saveType = this.querySelector("input[name=type]");
+      const includeSources = this.querySelector("input[name=sources]").checked;
+      if (saveType.value == "text") {
+        this.saveText(includeSources);
+      } else {
+        this.saveImage(includeSources);
+      }
+    });
+  }
+
+  saveText(includeSources) {
+    console.log(includeSources);
+  }
+
+  saveImage(includeSources) {
+    console.log(includeSources);
+  }
+}
+
+
 const reorder = new CustomEvent("reorder", {bubbles: true});
 const edited = new CustomEvent("edited", {bubbles: true});
+customElements.define("poem-saver", PoemSaver, { extends: "form" });
 customElements.define("theme-toggler", ThemeToggler, { extends: "a" });
 customElements.define("source-text", SourceText, { extends: "p" });
 customElements.define("source-shower", SourceShower, { extends: "button" });
