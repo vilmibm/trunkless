@@ -330,12 +330,16 @@ class PoemSaver extends HTMLFormElement {
     this.addEventListener("submit", (e) => {
       e.preventDefault();
       const includeSources = this.querySelector("input[name=sources]").checked;
+      const saveType = this.querySelector("input[name=type]").value;
       const text = this.toText(includeSources);
       if (e.submitter.innerText == "copy") {
-        // TODO
+        if (saveType == "text") {
+          this.copyText(text);
+        } else {
+          this.copyImage(text);
+        }
       } else {
-        const saveType = this.querySelector("input[name=type]");
-        if (saveType.value == "text") {
+        if (saveType == "text") {
           this.saveText(text);
         } else {
           this.saveImage(text);
@@ -355,6 +359,14 @@ class PoemSaver extends HTMLFormElement {
       text += "\n\nsources:\n" + sources;
     }
     return text;
+  }
+
+  copyText(text) {
+    navigator.clipboard.writeText(text);
+  }
+
+  copyImage(text) {
+    // TODO
   }
 
   saveText(text) {
