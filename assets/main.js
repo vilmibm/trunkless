@@ -329,12 +329,16 @@ class PoemSaver extends HTMLFormElement {
   connectedCallback() {
     this.addEventListener("submit", (e) => {
       e.preventDefault();
-      const saveType = this.querySelector("input[name=type]");
-      const includeSources = this.querySelector("input[name=sources]").checked;
-      if (saveType.value == "text") {
-        this.saveText(includeSources);
+      if (e.submitter.innerText == "copy") {
+        // TODO
       } else {
-        this.saveImage(includeSources);
+        const saveType = this.querySelector("input[name=type]");
+        const includeSources = this.querySelector("input[name=sources]").checked;
+        if (saveType.value == "text") {
+          this.saveText(includeSources);
+        } else {
+          this.saveImage(includeSources);
+        }
       }
     });
   }
@@ -342,7 +346,7 @@ class PoemSaver extends HTMLFormElement {
   saveText(includeSources) {
     var text = "";
     var sources = "";
-    $$(".line").forEach((e) => {
+    $$(".linetext").forEach((e) => {
       text += e.innerText + "\n";
       sources += e.dataset.source + "\n"
     })
@@ -350,12 +354,8 @@ class PoemSaver extends HTMLFormElement {
       text += "\n\nsources:\n" + sources;
     }
 
-    // TODO getting the line controls included
-    // TODO timestamp has decimal place
-    // TODO sources undefined
-
     const blob = new Blob([text], {type: "text/plain"});
-    const fname = `trunkless-poem-${Date.now()/1000}.txt`
+    const fname = `trunkless-poem-${Math.trunc(Date.now()/1000)}.txt`
     const dlink = document.createElement("a");
     dlink.download = fname;
     dlink.href = window.URL.createObjectURL(blob);
