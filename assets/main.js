@@ -329,21 +329,22 @@ class PoemSaver extends HTMLFormElement {
   connectedCallback() {
     this.addEventListener("submit", (e) => {
       e.preventDefault();
+      const includeSources = this.querySelector("input[name=sources]").checked;
+      const text = this.toText(includeSources);
       if (e.submitter.innerText == "copy") {
         // TODO
       } else {
         const saveType = this.querySelector("input[name=type]");
-        const includeSources = this.querySelector("input[name=sources]").checked;
         if (saveType.value == "text") {
-          this.saveText(includeSources);
+          this.saveText(text);
         } else {
-          this.saveImage(includeSources);
+          this.saveImage(text);
         }
       }
     });
   }
 
-  saveText(includeSources) {
+  toText(includeSources) {
     var text = "";
     var sources = "";
     $$(".linetext").forEach((e) => {
@@ -353,7 +354,10 @@ class PoemSaver extends HTMLFormElement {
     if (includeSources) {
       text += "\n\nsources:\n" + sources;
     }
+    return text;
+  }
 
+  saveText(text) {
     const blob = new Blob([text], {type: "text/plain"});
     const fname = `trunkless-poem-${Math.trunc(Date.now()/1000)}.txt`
     const dlink = document.createElement("a");
@@ -365,8 +369,9 @@ class PoemSaver extends HTMLFormElement {
     dlink.click();
   }
 
-  saveImage(includeSources) {
-    console.log(includeSources);
+  saveImage(text) {
+    // TODO
+    console.log(text);
   }
 }
 
