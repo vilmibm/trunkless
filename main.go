@@ -51,6 +51,7 @@ func main() {
 	r.StaticFile("/bg_light.gif", "./assets/bg_light.gif")
 	r.StaticFile("/bg_dark.gif", "./assets/bg_dark.gif")
 	r.StaticFile("/main.js", "./assets/main.js")
+	r.StaticFile("/html2canvas.min.js", "./assets/html2canvas.min.js")
 
 	randMax := big.NewInt(maxID)
 

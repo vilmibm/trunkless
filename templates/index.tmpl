@@ -50,6 +50,7 @@ span.linetext {
       <span class="linetext"></span>
       <p is="source-text"></p>
     </template>
+    <script src="/html2canvas.min.js"></script>
     <script src="/main.js"></script>
     <h1 style="display:block;margin:0">Trunkless</h1>
     <p style="margin-top:0;font-size:80%">
@@ -60,7 +61,7 @@ span.linetext {
       <button is="poem-resetter"></button>
 
       <form is="poem-saver" style="border: 1px solid grey; display:inline; padding:4px;">
-        <input name="type" value="text" type="radio" checked="true"/>as text
+        <input name="type" value="text" type="radio" checked />as text
         <input name="type" value="image" type="radio"/>as image
         <input name="sources" type="checkbox"/>include sources
         <button type="submit">copy</button>

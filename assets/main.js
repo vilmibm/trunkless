@@ -326,17 +326,17 @@ class ThemeToggler extends HTMLAnchorElement {
 
 
 class PoemSaver extends HTMLFormElement {
+  // TODO oops, you can't copy an image on ff; disable copy if image selected
   connectedCallback() {
     this.addEventListener("submit", (e) => {
       e.preventDefault();
-      const includeSources = this.querySelector("input[name=sources]").checked;
-      const saveType = this.querySelector("input[name=type]").value;
+      const fd = new FormData(e.target);
+      const includeSources = fd.get("sources") == "on";
+      const saveType = fd.get("type");
       const text = this.toText(includeSources);
       if (e.submitter.innerText == "copy") {
         if (saveType == "text") {
           this.copyText(text);
-        } else {
-          this.copyImage(text);
         }
       } else {
         if (saveType == "text") {
@@ -365,15 +365,14 @@ class PoemSaver extends HTMLFormElement {
     navigator.clipboard.writeText(text);
   }
 
-  copyImage(text) {
-    // TODO
+  fname() {
+    return `trunkless-poem-${Math.trunc(Date.now()/1000)}`
   }
 
   saveText(text) {
     const blob = new Blob([text], {type: "text/plain"});
-    const fname = `trunkless-poem-${Math.trunc(Date.now()/1000)}.txt`
     const dlink = document.createElement("a");
-    dlink.download = fname;
+    dlink.download = this.fname() + ".txt";
     dlink.href = window.URL.createObjectURL(blob);
     dlink.addEventListener("click", (e)=>{e.target.remove()});
     dlink.style.display = "none";
@@ -382,8 +381,31 @@ class PoemSaver extends HTMLFormElement {
   }
 
   saveImage(text) {
-    // TODO
-    console.log(text);
+    const toSave = document.createElement("p");
+    toSave.setAttribute("id", "toSave");
+    toSave.style.color = "black";
+    toSave.style["font-size"] = "75%";
+    toSave.style["max-width"] = "500px";
+    toSave.innerText = text;
+    $("body").append(toSave);
+    html2canvas(document.querySelector("#toSave")).then((canvas) => {
+      canvas.toBlob((blob) => {
+        // can't use this because ff doesn't have support by default for
+        // clipboard.write()
+        // let data = [new ClipboardItem({ [blob.type]: blob })];
+        // navigator.clipboard.write(data).then(() => {
+        //   copyImgButton.classList.add("rainbow");
+        // }, console.log);
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = downloadUrl;
+        a.download = this.fname() + ".png";
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(downloadUrl);
+        toSave.remove();
+      });
+    });
   }
 }
 
