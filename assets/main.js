@@ -90,7 +90,11 @@ class LineUpper extends Button {
 }
 
 class LineEditor extends Button {
+  connected = false
   connectedCallback() {
+    if (this.connected) {
+      return;
+    }
     this.setAttribute("title", "edit line text");
     this.span = this.closest(".line").querySelector("span.linetext");
     this.f = $("#line-editor-tmpl").content.firstElementChild.cloneNode(true);
@@ -99,6 +103,7 @@ class LineEditor extends Button {
       e.preventDefault();
       this.done();
     })
+    this.connected = true;
   }
   done() {
     this.setAttribute("title", "edit line text");
@@ -326,7 +331,7 @@ class ThemeToggler extends HTMLAnchorElement {
 }
 
 class PoemSaver extends HTMLFormElement {
-  // TODO oops, you can't copy an image on ff; disable copy if image selected
+  // oops, you can't copy an image on ff.
   connectedCallback() {
     this.querySelectorAll("input[name=type]").forEach((e) => {
       e.addEventListener("change", (e) => {
