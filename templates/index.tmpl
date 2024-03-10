@@ -50,8 +50,6 @@ span.linetext {
       <span class="linetext"></span>
       <p is="source-text"></p>
     </template>
-    <script src="/html2canvas.min.js"></script>
-    <script src="/main.js"></script>
     <h1 style="display:block;margin:0">Trunkless</h1>
     <p style="margin-top:0;font-size:80%">
         <a href="/about">about</a>
@@ -64,8 +62,8 @@ span.linetext {
         <input name="type" value="text" type="radio" checked />as text
         <input name="type" value="image" type="radio"/>as image
         <input name="sources" type="checkbox"/>include sources
-        <button type="submit">copy</button>
-        <button type="submit">save</button>
+        <button class="copy" type="submit">copy</button>
+        <button class="save" type="submit">save</button>
       </form>
     </div>
     <div style="border: 1px solid grey; padding: 5px">
@@ -77,5 +75,7 @@ span.linetext {
         <button is="line-adder" title="add line">+</button>
       </div>
     </div>
+    <script src="/html2canvas.min.js"></script>
+    <script src="/main.js"></script>
   </body>
 </html>

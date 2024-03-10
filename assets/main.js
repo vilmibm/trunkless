@@ -324,10 +324,25 @@ class ThemeToggler extends HTMLAnchorElement {
   }
 }
 
+// TODO bug: if pinned then moved, pin button loses bold
+
 
 class PoemSaver extends HTMLFormElement {
   // TODO oops, you can't copy an image on ff; disable copy if image selected
   connectedCallback() {
+    this.querySelectorAll("input[name=type]").forEach((e) => {
+      e.addEventListener("change", (e) => {
+        if (e.target.value == "image") {
+          this.querySelector("button.copy").setAttribute("disabled", true);
+        } else {
+          this.querySelector("button").removeAttribute("disabled");
+        }
+      });
+    });
+    const fd = new FormData(this);
+    if (fd.get("type") == "image") {
+      this.querySelector("button.copy").setAttribute("disabled", true);
+    }
     this.addEventListener("submit", (e) => {
       e.preventDefault();
       const fd = new FormData(e.target);
