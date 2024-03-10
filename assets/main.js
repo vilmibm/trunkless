@@ -337,6 +337,15 @@ class PoemSaver extends HTMLFormElement {
         }
       });
     });
+    this.querySelectorAll("button").forEach((e) => {
+      e.addEventListener("click", (e) => {
+        e.target.classList.add("rainbow");
+        e.target.addEventListener("animationend", () => {
+          e.target.classList.remove("rainbow")
+        });
+      });
+    });
+
     const fd = new FormData(this);
     if (fd.get("type") == "image") {
       this.querySelector("button.copy").setAttribute("disabled", true);

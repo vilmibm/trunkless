@@ -38,6 +38,19 @@ span.linetext {
   margin-bottom:4px;
   font-size:80%;
 }
+
+.rainbow {
+  animation-name: rainbow;
+  animation-duration: 1s;
+}
+
+@keyframes rainbow {
+  20%{color: red;}
+  40%{color: orange;}
+  60%{color: yellow;}
+  80%{color: green;}
+  100%{color: blue;}
+}
 </style>
   </head>
   <body>
@@ -63,11 +76,11 @@ span.linetext {
       <button is="poem-resetter"></button>
 
       <form is="poem-saver" style="border: 1px solid grey; display:inline; padding:4px;">
+        <button class="copy" type="submit">copy</button>
+        <button class="save" type="submit">save</button>
         <input name="type" value="text" type="radio" checked />as text
         <input name="type" value="image" type="radio"/>as image
         <input name="sources" type="checkbox"/>include sources
-        <button class="copy" type="submit">copy</button>
-        <button class="save" type="submit">save</button>
       </form>
     </div>
     <div style="border: 1px solid grey; padding: 5px">
