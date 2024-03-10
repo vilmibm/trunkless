@@ -59,9 +59,10 @@ class LinePinner extends Button {
     l.classList.toggle("unpinned");
     if (l.classList.contains("unpinned")) {
       this.innerText = "pin";
+      this.classList.remove("pinned");
       this.setAttribute("title", "pin line in place");
     } else {
-      this.innerHTML = "<strong>pin</strong>";
+      this.classList.add("pinned");
       this.setAttribute("title", "unpin line");
     }
   }
@@ -324,9 +325,6 @@ class ThemeToggler extends HTMLAnchorElement {
   }
 }
 
-// TODO bug: if pinned then moved, pin button loses bold
-
-
 class PoemSaver extends HTMLFormElement {
   // TODO oops, you can't copy an image on ff; disable copy if image selected
   connectedCallback() {
@@ -405,12 +403,6 @@ class PoemSaver extends HTMLFormElement {
     $("body").append(toSave);
     html2canvas(document.querySelector("#toSave")).then((canvas) => {
       canvas.toBlob((blob) => {
-        // can't use this because ff doesn't have support by default for
-        // clipboard.write()
-        // let data = [new ClipboardItem({ [blob.type]: blob })];
-        // navigator.clipboard.write(data).then(() => {
-        //   copyImgButton.classList.add("rainbow");
-        // }, console.log);
         const downloadUrl = window.URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = downloadUrl;
