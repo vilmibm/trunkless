@@ -15,7 +15,7 @@ body {
   font-size:125%;
   background-color: black;
   color: white;
-  background-image: url("/bg_dark.gif");
+ /*  background-image: url("/bg_dark.gif");*/
 }
 
 a {
@@ -61,11 +61,50 @@ span.linetext {
       </form>
     </template>
     <template id="linetmpl">
-      <span>
+      <style>
+        div.linetext {
+          font-size: 110%;
+        }
+        div.rightside {
+        }
+        div.source {
+          font-size: 50%;
+          font-style: oblique;
+          padding-left: 10px;
+        }
+        div.cont:hover {
+          background-color: rgba(255,255,255,.05);
+        }
+        .linectrl button {
+          width: 40px;
+          height: 40px;
+        }
+      </style>
+      <div class="cont" style="display: grid; grid-template-columns: 80% 20%">
+        <div class="linetext"></div>
+        <div class="rightside">
+          <div style="display: grid; grid-template-columns: 50% 50%">
+            <div class="linectrl">
+              <div style="display: grid; grid-template-columns: 2em 2em">
+                <div>
+                  <button is="line-pinner">pin</button><button is="line-editor">✎</button>
+                </div>
+                <div>
+                  </button><button>M</button><button is="line-remover">X</button>
+                </div>
+              </div>
+            </div>
+            <div class="source"></div>
+          </div>
+        </div>
+      </div>
+        <!--
+      <span class="linectrl">
         <button is="line-pinner">pin</button><button is="line-editor">✎</button><button is="line-upper">↑</button><button is="line-downer">↓</button><button is="source-shower"></button><button is="line-remover">X</button>
       </span>
       <span class="linetext"></span>
       <p is="source-text"></p>
+        -->
     </template>
     <h1 style="display:block;margin:0">Trunkless</h1>
     <p style="margin-top:0;font-size:80%">

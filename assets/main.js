@@ -214,7 +214,9 @@ class PoemLine extends HTMLDivElement {
       this.querySelector(".linetext").innerText = payload.Text;
       this.querySelector(".linetext").setAttribute("data-source", payload.Source.Name);
       this.originalText = payload.Text;
-      this.querySelector("p[is=source-text]").update(payload.Source);
+      const source = payload.Source
+      const sourceName = source.Name.slice(source.Name.indexOf(' '));
+      this.querySelector(".source").innerText = sourceName;
     });
   }
 }
