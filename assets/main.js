@@ -51,14 +51,14 @@ class LineRemover extends Button {
 
 class LinePinner extends Button {
   connectedCallback() {
-    this.innerText = "pin";
+    this.innerText = "P";
     this.setAttribute("title", "pin line in place");
   }
   click() {
     const l = this.closest("div.line");
     l.classList.toggle("unpinned");
     if (l.classList.contains("unpinned")) {
-      this.innerText = "pin";
+      this.innerText = "P";
       this.classList.remove("pinned");
       this.setAttribute("title", "pin line in place");
     } else {

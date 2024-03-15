@@ -63,7 +63,7 @@ span.linetext {
     <template id="linetmpl">
       <style>
         div.linetext {
-          font-size: 110%;
+          font-size: 100%;
         }
         div.rightside {
         }
@@ -71,15 +71,28 @@ span.linetext {
           font-size: 50%;
           font-style: oblique;
           padding-left: 10px;
+          text-align: right;
         }
         div.cont:hover {
           background-color: rgba(255,255,255,.05);
         }
         .linectrl button {
-          width: 40px;
-          height: 40px;
+          width: 30px;
+          height: 30px;
         }
       </style>
+      <div style="display: grid; grid-template-columns: 80% 20%">
+        <div>
+          <div class="linetext"></div>
+          <div class="source"></div>
+        </div>
+        <div class="linectrl">
+          <button is="line-pinner">P</button><button is="line-editor">E</button><button>M</button><button is="line-remover">X</button>
+        </div>
+      </div>
+
+
+      <!-- 
       <div class="cont" style="display: grid; grid-template-columns: 80% 20%">
         <div class="linetext"></div>
         <div class="rightside">
@@ -90,7 +103,7 @@ span.linetext {
                   <button is="line-pinner">pin</button><button is="line-editor">✎</button>
                 </div>
                 <div>
-                  </button><button>M</button><button is="line-remover">X</button>
+                  <button>M</button><button is="line-remover">X</button>
                 </div>
               </div>
             </div>
@@ -98,6 +111,7 @@ span.linetext {
           </div>
         </div>
       </div>
+      -->
         <!--
       <span class="linectrl">
         <button is="line-pinner">pin</button><button is="line-editor">✎</button><button is="line-upper">↑</button><button is="line-downer">↓</button><button is="source-shower"></button><button is="line-remover">X</button>
