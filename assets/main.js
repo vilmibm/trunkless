@@ -96,7 +96,7 @@ class LineEditor extends Button {
       return;
     }
     this.setAttribute("title", "edit line text");
-    this.span = this.closest(".line").querySelector("span.linetext");
+    this.linetext = this.closest(".line").querySelector(".linetext");
     this.f = $("#line-editor-tmpl").content.firstElementChild.cloneNode(true);
     this.i = this.f.querySelector("input[type=text]");
     this.f.addEventListener("submit", (e) => {
@@ -108,10 +108,11 @@ class LineEditor extends Button {
   done() {
     this.setAttribute("title", "edit line text");
     this.editing = false;
-    this.innerText = "✎";
-    this.span.innerText = this.i.value;
+    //this.innerText = "✎";
+    this.innerText = "E";
+    this.linetext.innerText = this.i.value;
     this.f.remove();
-    this.span.setAttribute("style", "display:inline");
+    this.linetext.style.display = "block";
     this.dispatchEvent(edited);
   }
   click() {
@@ -122,8 +123,9 @@ class LineEditor extends Button {
     this.editing = true;
     this.setAttribute("title", "finish editing");
     this.innerHTML = "<strong>✓</strong>";
-    this.span.setAttribute("style", "display:none");
-    this.i.value = this.span.innerText;
+    this.linetext.style.display = "none";
+    //this.linetext.setAttribute("style", "display:none");
+    this.i.value = this.linetext.innerText;
     this.parentElement.appendChild(this.f);
     this.i.focus();
   }
@@ -188,7 +190,7 @@ class PoemLine extends HTMLDivElement {
     this.ltp = $("#linetmpl");
     this.addEventListener("edited", (e) => {
       e.preventDefault();
-      this.querySelector("p[is=source-text]").edited();
+      this.querySelector("div[is=source-text]").edited();
     });
   }
 
@@ -264,26 +266,15 @@ class PoemLines extends HTMLDivElement {
   }
 }
 
-class SourceText extends HTMLParagraphElement {
+class SourceText extends HTMLDivElement {
   constructor() {
     super();
   }
 
-  connectedCallback() {
-    this.setAttribute("style", `display: none;`);
-  }
-
-  toggle() {
-    if (this.style.display == "none") {
-      this.style.display = "block";
-    } else {
-      this.style.display = "none";
-    }
-  }
-
   edited() {
     const line = this.parentElement;
-    const text = line.querySelector("span.linetext").innerText;
+    const text = line.querySelector(".linetext").innerText;
+    console.log(text);
     const orig = line.originalText;
     if (text == "" || (text != orig && !orig.includes(text))) {
       this.update({"Name": "original"});
@@ -292,14 +283,10 @@ class SourceText extends HTMLParagraphElement {
 
   update(source) {
     if (source.Name.startsWith("pg")) {
-      const fullGutID = source.Name.split(" ", 2)[0];
       const sourceName = source.Name.slice(source.Name.indexOf(' '));
-      const gutID = fullGutID.match(/^pg(.+).txt$/)[1];
-      const url = `https://www.gutenberg.org/cache/epub/${gutID}/pg${gutID}.txt`;
-      this.innerHTML = `
-      <span>${sourceName}</span> (<a href="${url}">${fullGutID}</a>)`
+      this.innerText = sourceName;
     } else {
-      this.innerHTML = `<span>${source.Name}</span>`;
+      this.innerText = source.Name;
     }
   }
 }
@@ -437,7 +424,7 @@ const reorder = new CustomEvent("reorder", {bubbles: true});
 const edited = new CustomEvent("edited", {bubbles: true});
 customElements.define("poem-saver", PoemSaver, { extends: "form" });
 customElements.define("theme-toggler", ThemeToggler, { extends: "a" });
-customElements.define("source-text", SourceText, { extends: "p" });
+customElements.define("source-text", SourceText, { extends: "div" });
 customElements.define("source-shower", SourceShower, { extends: "button" });
 customElements.define("line-remover", LineRemover, { extends: "button" });
 customElements.define("line-pinner", LinePinner, { extends: "button" });
