@@ -197,6 +197,22 @@ class PoemLine extends HTMLDivElement {
     if (this.connected) {
       return;
     }
+    const lid = Math.floor(Math.random()*100);
+    this.setAttribute("id", `line-${lid}`);
+    this.setAttribute("draggable", true);
+    this.addEventListener("dragstart", (e) => {
+      e.dataTransfer.dropEffect = "move";
+      e.dataTransfer.setData("text/plain", e.target.id);
+    });
+    this.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+    });
+    this.addEventListener("drop", (e) => {
+      e.preventDefault();
+      const lid = e.dataTransfer.getData("text/plain");
+      this.closest(".line").before(document.getElementById(lid));
+    });
     this.appendChild(this.ltp.content.cloneNode(true));
     this.connected = true;
   }
