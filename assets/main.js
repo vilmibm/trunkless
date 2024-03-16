@@ -108,10 +108,10 @@ class LineEditor extends Button {
   done() {
     this.setAttribute("title", "edit line text");
     this.editing = false;
-    this.innerText = "E";
     this.linetext.innerText = this.i.value;
     this.f.remove();
     this.linetext.style.display = "block";
+    this.style['font-weight'] = "";
     this.dispatchEvent(edited);
   }
   click() {
@@ -121,7 +121,7 @@ class LineEditor extends Button {
     }
     this.editing = true;
     this.setAttribute("title", "finish editing");
-    this.innerHTML = "<strong>✓</strong>";
+    this.style['font-weight'] = "bold";
     const l = this.linetext.parentElement;
     this.linetext.style.display = "none";
     this.i.value = this.linetext.innerText;
