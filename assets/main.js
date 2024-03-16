@@ -108,7 +108,6 @@ class LineEditor extends Button {
   done() {
     this.setAttribute("title", "edit line text");
     this.editing = false;
-    //this.innerText = "✎";
     this.innerText = "E";
     this.linetext.innerText = this.i.value;
     this.f.remove();
@@ -123,10 +122,10 @@ class LineEditor extends Button {
     this.editing = true;
     this.setAttribute("title", "finish editing");
     this.innerHTML = "<strong>✓</strong>";
+    const l = this.linetext.parentElement;
     this.linetext.style.display = "none";
-    //this.linetext.setAttribute("style", "display:none");
     this.i.value = this.linetext.innerText;
-    this.parentElement.appendChild(this.f);
+    l.appendChild(this.f);
     this.i.focus();
   }
 }
