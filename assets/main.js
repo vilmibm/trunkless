@@ -250,6 +250,26 @@ class SourceText extends HTMLDivElement {
   }
 }
 
+class AboutToggler extends HTMLAnchorElement {
+  constructor() {
+    super();
+    this.hide = true;
+    this.style.cursor = "pointer";
+  }
+
+  connectedCallback() {
+    this.innerText = "about";
+    this.addEventListener("click", (e) => {
+      if (this.hide) {
+        $("#about").style.display = "block";
+      } else {
+        $("#about").style.display = "none";
+      }
+      this.hide = !this.hide;
+    });
+  }
+}
+
 class ThemeToggler extends HTMLAnchorElement {
   constructor() {
     super();
@@ -385,6 +405,7 @@ class PoemSaver extends HTMLFormElement {
 
 const reorder = new CustomEvent("reorder", {bubbles: true});
 const edited = new CustomEvent("edited", {bubbles: true});
+customElements.define("about-toggler", AboutToggler, { extends: "a" });
 customElements.define("poem-saver", PoemSaver, { extends: "form" });
 customElements.define("theme-toggler", ThemeToggler, { extends: "a" });
 customElements.define("source-text", SourceText, { extends: "div" });
