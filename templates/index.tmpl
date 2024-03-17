@@ -15,8 +15,19 @@ body {
   font-size:125%;
   background-color: black;
   color: white;
- /*  background-image: url("/bg_dark.gif");*/
+  background-image: url("/bg_dark.gif");
 }
+
+.main {
+  background-color: black;
+  border: 1px solid grey;
+  padding: 5px
+}
+
+h1 {
+  background-color: black;
+}
+
 
 a {
   color: white;
@@ -26,6 +37,10 @@ a {
   margin: 0;
   margin-bottom:4px;
   font-size:80%;
+}
+
+.controls form {
+  background-color: black;
 }
 
 .rainbow {
@@ -51,7 +66,7 @@ a {
     </template>
     <template id="linetmpl">
       <style>
-        div.linetext {
+        .linetext {
           font-size: 100%;
         }
         div.source {
@@ -60,8 +75,14 @@ a {
           padding-left: 10px;
           text-align: right;
         }
-        div.linetext:hover {
-          background-color: rgba(255,255,255,.10);
+        .linetext:hover {
+          cursor: auto;
+        }
+        .line:hover {
+          background-color: rgba(125,125,125,.40);
+        }
+        .cont:hover {
+          cursor: grab;
         }
         div.linectrl {
           text-align: right;
@@ -77,17 +98,13 @@ a {
         button.pinned {
           font-weight:bold;
         }
-        
-        span.linetext {
-          background-color: black;
-        }
       </style>
       <div class="cont" style="display: grid; grid-template-columns: 80% 20%">
         <div>
-          <div class="linetext"></div>
+          <span class="linetext"></span>
         </div>
         <div class="linectrl">
-          <button is="line-pinner">P</button><button is="line-editor">E</button><button>M</button><button is="line-remover">X</button>
+          <button is="line-pinner">P</button><button is="line-editor">E</button><button is="line-remover">X</button>
         </div>
       </div>
       <div is="source-text" class="source"></div>
@@ -109,7 +126,7 @@ a {
         <input name="sources" type="checkbox"/>include sources
       </form>
     </div>
-    <div style="border: 1px solid grey; padding: 5px">
+    <div class="main">
       <div style="margin-bottom: 5px">
         <button is="poem-regenner">↺</button>
       </div>

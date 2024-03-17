@@ -19,24 +19,6 @@ class Button extends HTMLButtonElement {
   }
 }
 
-class SourceShower extends Button {
-  connectedCallback() {
-    this.innerText = "?"
-    this.setAttribute("title", "show source");
-  }
-
-  click() {
-    this.closest("div.line").querySelector("p[is=source-text]").toggle()
-    if (this.innerHTML.includes("strong")) {
-      this.innerHTML = "?";
-      this.setAttribute("title", "show source");
-    } else {
-      this.innerHTML = "<strong>?</strong>";
-      this.setAttribute("title", "hide source");
-    }
-  }
-}
-
 class LineRemover extends Button {
   connectedCallback() {
     this.setAttribute("title", "remove line");
@@ -68,27 +50,6 @@ class LinePinner extends Button {
   }
 }
 
-class LineUpper extends Button {
-  connectedCallback() {
-    this.setAttribute("title", "move line up");
-  }
-  click() {
-    const l = this.closest("div.line");
-    const s = l.previousElementSibling;
-    s.before(l);
-    this.dispatchEvent(reorder);
-  }
-
-  checkDisabled() {
-    const l = this.closest("div.line");
-    if (l.previousElementSibling == null) {
-      this.setAttribute("disabled", "yeah");
-    } else {
-      this.removeAttribute("disabled");
-    }
-  }
-}
-
 class LineEditor extends Button {
   connected = false
   connectedCallback() {
@@ -110,7 +71,7 @@ class LineEditor extends Button {
     this.editing = false;
     this.linetext.innerText = this.i.value;
     this.f.remove();
-    this.linetext.style.display = "block";
+    this.linetext.style.display = "inline";
     this.style['font-weight'] = "";
     this.dispatchEvent(edited);
   }
@@ -134,27 +95,6 @@ class LineInput extends HTMLInputElement {
   constructor() {
     super();
     this.setAttribute("type", "text");
-  }
-}
-
-class LineDowner extends Button {
-  connectedCallback() {
-    this.setAttribute("title", "move line down");
-  }
-  click() {
-    const l = this.closest("div.line");
-    const s = l.nextElementSibling;
-    s.after(l);
-    this.dispatchEvent(reorder);
-  }
-
-  checkDisabled() {
-    const l = this.closest("div.line");
-    if (l.nextElementSibling == null) {
-      this.setAttribute("disabled", "yeah");
-    } else {
-      this.removeAttribute("disabled");
-    }
   }
 }
 
@@ -197,13 +137,10 @@ class PoemLine extends HTMLDivElement {
     if (this.connected) {
       return;
     }
+    this.setAttribute("draggable", true);
+
     const lid = Math.floor(Math.random()*100);
     this.setAttribute("id", `line-${lid}`);
-    this.setAttribute("draggable", true);
-    this.addEventListener("dragstart", (e) => {
-      e.dataTransfer.dropEffect = "move";
-      e.dataTransfer.setData("text/plain", e.target.id);
-    });
     this.addEventListener("dragover", (e) => {
       e.preventDefault();
       e.dataTransfer.dropEffect = "move";
@@ -213,12 +150,23 @@ class PoemLine extends HTMLDivElement {
       const lid = e.dataTransfer.getData("text/plain");
       this.closest(".line").before(document.getElementById(lid));
     });
+    this.addEventListener("dragstart", (e) => {
+      e.dataTransfer.dropEffect = "move";
+      e.dataTransfer.setData("text/plain", this.getAttribute("id"));
+    });
     this.appendChild(this.ltp.content.cloneNode(true));
+    const lt = this.querySelector(".linetext");
+    lt.addEventListener("mousedown", (e) => {
+      this.setAttribute("draggable", false);
+    });
+    lt.addEventListener("mouseleave", (e) => {
+      this.setAttribute("draggable", true);
+    });
     this.connected = true;
   }
 
   get source() {
-    return this.querySelector("span.linetext").dataset.source;
+    return this.querySelector(".linetext").dataset.source;
   }
 
   regen() {
@@ -241,10 +189,6 @@ class PoemLine extends HTMLDivElement {
 class PoemLines extends HTMLDivElement {
   constructor() {
     super();
-    this.addEventListener("reorder", () => {
-      this.querySelectorAll("button[is=line-downer]").forEach(invoker("checkDisabled"));
-      this.querySelectorAll("button[is=line-upper]").forEach(invoker("checkDisabled"));
-    });
   }
 
   connectedCallback() {
@@ -315,21 +259,26 @@ class ThemeToggler extends HTMLAnchorElement {
     this.setAttribute("aria-hidden", "true");
     this.style.cursor = "pointer";
   }
+
   click() {
     if (this.theme == "light") {
       this.theme = "dark";
       $("body").style.backgroundColor = "black";
       $("body").style.backgroundImage = 'url("/bg_dark.gif")';
       $("body").style.color = "white";
+      $(".main").style.backgroundColor = "black";
+      $("h1").style.backgroundColor = "black";
+      $(".controls form").style.backgroundColor = "black";
       $$("a").forEach((e) => { e.style.color = "white" });
-      $$("span.linetext").forEach((e) => { e.style.backgroundColor = "black" });
     } else {
       this.theme = "light";
       $("body").style.backgroundColor = "white";
       $("body").style.backgroundImage = 'url("/bg_light.gif")';
       $("body").style.color = "black";
+      $(".main").style.backgroundColor = "white";
+      $(".controls form").style.backgroundColor = "white";
+      $("h1").style.backgroundColor = "white";
       $$("a").forEach((e) => { e.style.color = "black" });
-      $$("span.linetext").forEach((e) => { e.style.backgroundColor = "white" });
     }
   }
 }
@@ -434,18 +383,14 @@ class PoemSaver extends HTMLFormElement {
   }
 }
 
-
 const reorder = new CustomEvent("reorder", {bubbles: true});
 const edited = new CustomEvent("edited", {bubbles: true});
 customElements.define("poem-saver", PoemSaver, { extends: "form" });
 customElements.define("theme-toggler", ThemeToggler, { extends: "a" });
 customElements.define("source-text", SourceText, { extends: "div" });
-customElements.define("source-shower", SourceShower, { extends: "button" });
 customElements.define("line-remover", LineRemover, { extends: "button" });
 customElements.define("line-pinner", LinePinner, { extends: "button" });
 customElements.define("line-editor", LineEditor, { extends: "button" });
-customElements.define("line-upper", LineUpper, { extends: "button" });
-customElements.define("line-downer", LineDowner, { extends: "button" });
 customElements.define("line-adder", LineAdder, { extends: "button" });
 customElements.define("poem-regenner", PoemRegenner, {extends: "button"});
 customElements.define("poem-resetter", PoemResetter, {extends: "button"});
