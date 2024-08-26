@@ -338,6 +338,12 @@ class ThemeToggler extends HTMLAnchorElement {
     this.innerText = "◑";
     this.setAttribute("aria-hidden", "true");
     this.style.cursor = "pointer";
+
+    // Add color-scheme meta tag to style buttons
+    const colorSchemeMeta = document.createElement("meta");
+    colorSchemeMeta.name = "color-scheme";
+    colorSchemeMeta.content = this.theme;
+    document.head.appendChild(colorSchemeMeta);
   }
 
   click() {
@@ -369,6 +375,7 @@ class ThemeToggler extends HTMLAnchorElement {
       $(".corner .bordered").style.border = "1px solid black";
       $$("a").forEach((e) => { e.style.color = "black" });
     }
+    $("meta[name=color-scheme]").content = this.theme;
   }
 }
 
