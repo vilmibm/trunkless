@@ -161,9 +161,8 @@ a {
     </p>
     </div>
     <div class="controls">
-      <form method="GET" action="/" style="display:inline">
-        <label for="corpus-select">corpus:</label>
-        <select name="corpus" id="corpus-select">
+      <label for="corpus-select">corpus:</label>
+      <select is="corpus-picker" id="corpus-select">
           {{$selected := .SelectedCorpus}}
           {{range .Corpora}}
             {{if eq $selected .ID}}
@@ -172,9 +171,7 @@ a {
               <option value="{{.ID}}">{{.Name}} ({{.MaxID}} possible lines)</option>
             {{end}}
           {{end}}
-        </select>
-        <button type="submit">go</button>
-      </form>
+      </select>
     </div>
     <div class="main">
       <div style="margin-bottom: 5px">

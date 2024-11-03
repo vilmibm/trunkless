@@ -479,9 +479,24 @@ class PoemSaver extends HTMLFormElement {
   }
 }
 
+class CorpusPicker extends HTMLSelectElement {
+  connectedCallback() {
+    if (this.connected) {
+      return;
+    }
+    this.addEventListener("change", (e) => {
+      const params = new URLSearchParams(document.location.search);
+      params.set("corpus", this.value);
+      window.history.replaceState({}, '', `${location.pathname}?${params}`);
+      $("div[is=poem-lines]").regenerate();
+    });
+  }
+}
+
 const pinned = new CustomEvent("pinned", {bubbles: true});
 const unpinned = new CustomEvent("unpinned", {bubbles: true});
 const edited = new CustomEvent("edited", {bubbles: true});
+customElements.define("corpus-picker", CorpusPicker, { extends: "select" });
 customElements.define("about-toggler", AboutToggler, { extends: "a" });
 customElements.define("poem-saver", PoemSaver, { extends: "form" });
 customElements.define("theme-toggler", ThemeToggler, { extends: "a" });
