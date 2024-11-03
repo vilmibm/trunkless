@@ -357,7 +357,7 @@ class ThemeToggler extends HTMLAnchorElement {
       $("#about").style.backgroundColor = "black";
       $("#about").style.color = "white";
       $("h1").style.backgroundColor = "black";
-      $(".controls form").style.backgroundColor = "black";
+      $(".controls label").style.backgroundColor = "black";
       $(".corner").style.backgroundColor = "black";
       $(".corner .bordered").style.border = "1px solid white";
       $$("a").forEach((e) => { e.style.color = "white" });
@@ -369,7 +369,7 @@ class ThemeToggler extends HTMLAnchorElement {
       $("#about").style.backgroundColor = "white";
       $("#about").style.color = "black";
       $(".main").style.backgroundColor = "white";
-      $(".controls form").style.backgroundColor = "white";
+      $(".controls label").style.backgroundColor = "white";
       $("h1").style.backgroundColor = "white";
       $(".corner").style.backgroundColor = "white";
       $(".corner .bordered").style.border = "1px solid black";
