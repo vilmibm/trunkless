@@ -7,6 +7,7 @@ import (
 	"html/template"
 	"log"
 	"math/big"
+	mrand "math/rand"
 	"net/http"
 	"strings"
 
@@ -153,7 +154,11 @@ func Serve(opts ServeOpts) error {
 		}
 		defer conn.Release()
 
-		corpusid := c.DefaultQuery("corpus", "c3d8e9")
+		corpusid := c.DefaultQuery("corpus", "")
+		if corpusid == "" {
+			ix := mrand.Intn(len(corpora))
+			corpusid = corpora[ix].ID
+		}
 
 		var cpus corpus
 

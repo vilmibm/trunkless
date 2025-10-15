@@ -3,6 +3,7 @@ const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 
 const initialLines = 10;
+const DEFAULT_CORPUS_ID = "c3d8e9";
 
 // I am truly sorry
 function invoker(methodName) {
@@ -203,7 +204,7 @@ class PoemLine extends HTMLDivElement {
 
   regen() {
     let params = new URLSearchParams(document.location.search);
-    const corpusid = params.get("corpus");
+    const corpusid = params.get("corpus") || DEFAULT_CORPUS_ID;
     let p = "/line";
     if (corpusid != "" && corpusid != null) {
       p = `/line?corpus=${corpusid}`;
